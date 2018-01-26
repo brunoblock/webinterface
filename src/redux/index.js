@@ -1,4 +1,5 @@
 import { applyMiddleware, compose, createStore } from "redux";
+import { persistStore, autoRehydrate } from 'redux-persist';
 import { createLogger } from "redux-logger";
 import { createEpicMiddleware } from "redux-observable";
 
@@ -10,6 +11,7 @@ const middleware = [
   process.env.NODE_ENV === `development` && createLogger(),
   createEpicMiddleware(epics)
 ];
-const store = createStore(reducer, composeFn(applyMiddleware(...middleware)));
+const store = createStore(reducer, composeFn(applyMiddleware(...middleware), autoRehydrate()));
+persistStore(store);
 
 export default store;
