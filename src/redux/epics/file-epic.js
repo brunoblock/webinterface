@@ -45,9 +45,9 @@ function checkUploadProgress(action$, store) {
     return Observable.interval(2000)
       .takeUntil(action$.ofType(fileActions.MARK_UPLOAD_AS_COMPLETE))
       .mergeMap(action =>
-        Observable.fromPromise(Iota.checkUploadPercentage(addresses)).map(
-          percentage => fileActions.updateUploadProgress(percentage)
-        )
+        Observable.fromPromise(Iota.checkUploadPercentage(addresses))
+          .map(percentage => fileActions.updateUploadProgress(percentage))
+          .catch(error => Observable.empty())
       );
   });
 }
