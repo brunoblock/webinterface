@@ -15,7 +15,7 @@ const generate = (size, genesisHash) => {
         previousChunkInTrytes
       );
 
-      const encryptedHash = Encryption.encrypt(previousEncryptedChunk);
+      const encryptedHash = Encryption.sha256(previousEncryptedChunk);
       const encryptedHashInTrytes = iota.utils.toTrytes(encryptedHash);
 
       console.log(

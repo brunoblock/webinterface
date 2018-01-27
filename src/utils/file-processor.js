@@ -7,22 +7,23 @@ const {
   parseEightCharsOfFilename,
   getSalt,
   getPrimordialHash,
+  sha256,
   encrypt
 } = Encryption;
 
-const chunkGenerator = (idx, data, hash) => {
+const chunkGenerator = ({ idx, data, hash }) => {
   return { idx, data, hash };
 };
 
 const uploadFileToBrokerNodes = (file, handle) => {
   const byteChunks = createByteChunks(file);
-  const genesisHash = encrypt(handle);
+  const genesisHash = sha256(handle);
 
-  return createUploadSession(file, genesisHash)
-    .then(({ genesisHash, sessionId }) =>
+  return createUploadSession(file.size, genesisHash)
+    .then(sessionId =>
       Promise.all([
-        sendToAlphaBroker(sessionId, byteChunks, file, genesisHash),
-        sendToBetaBroker(sessionId, byteChunks, file, genesisHash)
+        sendToAlphaBroker(sessionId, byteChunks, file, handle, genesisHash),
+        sendToBetaBroker(sessionId, byteChunks, file, handle, genesisHash)
       ])
     )
     .then(() => {
@@ -50,17 +51,17 @@ const createByteChunks = file => {
   return byteChunks;
 };
 
-const createUploadSession = (file, handle) =>
+const createUploadSession = (fileSizeBytes, genesisHash) =>
   new Promise((resolve, reject) => {
     axios
       .post(`${API.HOST}${API.V1_UPLOAD_SESSIONS_PATH}`, {
-        file_size_bytes: file.size,
-        genesis_hash: handle
+        file_size_bytes: fileSizeBytes,
+        genesis_hash: genesisHash
       })
       .then(({ data }) => {
         console.log("UPLOAD SESSION SUCCESS: ", data);
-        const { genesis_hash: genesisHash, id: sessionId } = data;
-        resolve({ genesisHash, sessionId });
+        const { id: sessionId } = data;
+        resolve(sessionId);
       })
       .catch(error => {
         console.log("UPLOAD SESSION ERROR: ", error);
@@ -78,12 +79,16 @@ const createReader = onRead => {
   return reader;
 };
 
-const sendChunkToBroker = (sessionId, chunkIdx, data, handle) =>
+const sendChunkToBroker = (sessionId, chunkIdx, data, handle, genesisHash) =>
   new Promise((resolve, reject) => {
     const encryptedData = encrypt(data, handle);
     axios
       .put(`${API.HOST}${API.V1_UPLOAD_SESSIONS_PATH}/${sessionId}`, {
-        chunk: chunkGenerator(chunkIdx, encryptedData, handle)
+        chunk: chunkGenerator({
+          idx: chunkIdx,
+          data: encryptedData,
+          hash: genesisHash
+        })
       })
       .then(response => {
         console.log("SENT CHUNK TO BROKER: ", response);
@@ -99,6 +104,7 @@ const sendFileContentsToBroker = (
   sessionId,
   file,
   handle,
+  genesisHash,
   byteChunks,
   sliceCutOffFn
 ) => {
@@ -112,9 +118,13 @@ const sendFileContentsToBroker = (
         );
 
         const reader = createReader(fileSlice => {
-          sendChunkToBroker(sessionId, chunkIdx, fileSlice, handle).then(
-            resolve
-          );
+          sendChunkToBroker(
+            sessionId,
+            chunkIdx,
+            fileSlice,
+            handle,
+            genesisHash
+          ).then(resolve);
         });
         reader.readAsBinaryString(blob);
       })
@@ -123,11 +133,15 @@ const sendFileContentsToBroker = (
   return Promise.all(chunkRequests);
 };
 
-const sendMetaDataToBroker = (sessionId, file, handle) =>
+const sendMetaDataToBroker = (sessionId, file, handle, genesisHash) =>
   new Promise((resolve, reject) => {
     axios
       .put(`${API.HOST}${API.V1_UPLOAD_SESSIONS_PATH}/${sessionId}`, {
-        chunk: chunkGenerator(0, buildMetaDataPacket(file, handle), handle)
+        chunk: chunkGenerator({
+          idx: 0,
+          data: buildMetaDataPacket(file, handle),
+          hash: genesisHash
+        })
       })
       .then(({ data }) => {
         console.log("METADATA TO BROKER SUCCESS: ", data);
@@ -139,13 +153,14 @@ const sendMetaDataToBroker = (sessionId, file, handle) =>
       });
   });
 
-const sendToAlphaBroker = (sessionId, byteChunks, file, genesisHash) =>
+const sendToAlphaBroker = (sessionId, byteChunks, file, handle, genesisHash) =>
   new Promise((resolve, reject) => {
-    sendMetaDataToBroker(sessionId, file, genesisHash)
+    sendMetaDataToBroker(sessionId, file, handle, genesisHash)
       .then(() =>
         sendFileContentsToBroker(
           sessionId,
           file,
+          handle,
           genesisHash,
           byteChunks,
           byteLocation => byteLocation + FILE.CHUNK_BYTE_SIZE
@@ -154,16 +169,17 @@ const sendToAlphaBroker = (sessionId, byteChunks, file, genesisHash) =>
       .then(resolve);
   });
 
-const sendToBetaBroker = (sessionId, byteChunks, file, genesisHash) =>
+const sendToBetaBroker = (sessionId, byteChunks, file, handle, genesisHash) =>
   new Promise((resolve, reject) => {
     sendFileContentsToBroker(
       sessionId,
       file,
+      handle,
       genesisHash,
       [...byteChunks].reverse(),
       byteLocation => Math.min(file.size, byteLocation + FILE.CHUNK_BYTE_SIZE)
     )
-      .then(() => sendMetaDataToBroker(sessionId, file, genesisHash))
+      .then(() => sendMetaDataToBroker(sessionId, file, handle, genesisHash))
       .then(resolve);
   });
 

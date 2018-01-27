@@ -43,7 +43,7 @@ function checkUploadProgress(action$, store) {
     console.log("POLLING 81 CHARACTER IOTA ADDRESSES: ", addresses);
 
     return Observable.interval(2000)
-      .takeUntil(action$.ofType(fileActions.MARK_AS_COMPLETE))
+      .takeUntil(action$.ofType(fileActions.MARK_UPLOAD_AS_COMPLETE))
       .mergeMap(action =>
         Observable.fromPromise(Iota.checkUploadPercentage(addresses)).map(
           percentage => fileActions.updateUploadProgress(percentage)
