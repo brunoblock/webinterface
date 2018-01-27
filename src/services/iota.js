@@ -13,6 +13,8 @@ const checkUploadPercentage = addresses =>
         if (error) {
           console.log("IOTA ERROR: ", error);
         }
+        global.blah = transactionObjects;
+        console.log("transactionObjects: ", transactionObjects);
         const settledTransactions = transactionObjects || [];
         const percentage = settledTransactions.length / addresses.length * 100;
         resolve(percentage);
