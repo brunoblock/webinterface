@@ -3,15 +3,26 @@ import { connect } from "react-redux";
 
 import uploadActions from "../../redux/actions/upload-actions";
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  uploads: state.file.uploads
+});
 const mapDispatchToProps = dispatch => ({
   initializeUploadFn: file =>
     dispatch(uploadActions.initializeUploadAction(file))
 });
 
 class Main extends Component {
+  renderUploadRow(upload) {
+    const { fileName, progress, handle } = upload;
+    return (
+      <span key={handle}>
+        {fileName}: UPLOAD PROGRESS: {progress}
+      </span>
+    );
+  }
+
   render() {
-    const { initializeUploadFn } = this.props;
+    const { initializeUploadFn, uploads } = this.props;
     return (
       <div>
         <input
@@ -29,6 +40,7 @@ class Main extends Component {
         >
           Upload a file.
         </button>
+        <div>{uploads.map(upload => this.renderUploadRow(upload))}</div>
       </div>
     );
   }

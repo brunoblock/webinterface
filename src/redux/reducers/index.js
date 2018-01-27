@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
 
-import history from "redux/reducers/history-reducer";
+import file from "redux/reducers/file-reducer";
 
-export default combineReducers({ history });
+export default combineReducers({ file });

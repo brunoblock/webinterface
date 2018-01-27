@@ -5,9 +5,9 @@ const ACTIONS = Object.freeze({
   ADD_UPLOADED_FILE,
 
   // actionCreators
-  addUploadedFileAction: ({ numberOfChunks, fileName, fileHandle }) => ({
+  addUploadedFileAction: ({ numberOfChunks, fileName, handle }) => ({
     type: ACTIONS.ADD_UPLOADED_FILE,
-    payload: { numberOfChunks, fileName, fileHandle }
+    payload: { numberOfChunks, fileName, handle }
   })
 });
 
