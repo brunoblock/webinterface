@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import fileActions from "../../redux/actions/file-actions";
+import uploadActions from "../../redux/actions/upload-actions";
 
 const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
-  initializeUploadFn: file => dispatch(fileActions.initializeUploadAction(file))
+  initializeUploadFn: file =>
+    dispatch(uploadActions.initializeUploadAction(file))
 });
 
 class Main extends Component {
   render() {
-    const { file, initializeUploadFn } = this.props;
+    const { initializeUploadFn } = this.props;
     return (
       <div>
         <input

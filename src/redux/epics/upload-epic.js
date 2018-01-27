@@ -2,7 +2,7 @@ import { Observable } from "rxjs";
 import { combineEpics } from "redux-observable";
 import _ from "lodash";
 
-import fileActions from "redux/actions/file-actions";
+import uploadActions from "redux/actions/upload-actions";
 
 import { IOTA_API } from "config";
 import Iota from "services/iota";
@@ -10,12 +10,12 @@ import Datamap from "utils/datamap";
 import FileProcessor from "utils/file-processor";
 
 function initializeUpload(action$, store) {
-  return action$.ofType(fileActions.INITIALIZE_UPLOAD).map(action => {
+  return action$.ofType(uploadActions.INITIALIZE_UPLOAD).map(action => {
     const file = action.payload;
     const { numberOfChunks, handle, fileName } = FileProcessor.initializeUpload(
       file
     );
-    return fileActions.beginUploadAction({
+    return uploadActions.beginUploadAction({
       numberOfChunks,
       handle,
       fileName,
@@ -25,23 +25,23 @@ function initializeUpload(action$, store) {
 }
 
 function uploadFile(action$, store) {
-  return action$.ofType(fileActions.BEGIN_UPLOAD).mergeMap(action => {
+  return action$.ofType(uploadActions.BEGIN_UPLOAD).mergeMap(action => {
     const { file, handle } = action.payload;
     return Observable.fromPromise(
       FileProcessor.uploadFileToBrokerNodes(file, handle)
     )
       .map(({ numberOfChunks, handle, fileName }) =>
-        fileActions.uploadSuccessAction({ numberOfChunks, handle, fileName })
+        uploadActions.uploadSuccessAction({ numberOfChunks, handle, fileName })
       )
       .catch(error => {
         console.log("UPLOAD FILE EPIC ERROR: ", error);
-        return fileActions.uploadFailureAction;
+        return uploadActions.uploadFailureAction;
       });
   });
 }
 
 function checkUploadProgress(action$, store) {
-  return action$.ofType(fileActions.UPLOAD_SUCCESS).switchMap(action => {
+  return action$.ofType(uploadActions.UPLOAD_SUCCESS).switchMap(action => {
     const { numberOfChunks, handle } = action.payload;
     const datamap = Datamap.generate(handle, numberOfChunks);
     const addresses = _.values(datamap).map(trytes =>
@@ -50,10 +50,10 @@ function checkUploadProgress(action$, store) {
     console.log("POLLING 81 CHARACTER IOTA ADDRESSES: ", addresses);
 
     return Observable.interval(2000)
-      .takeUntil(action$.ofType(fileActions.MARK_UPLOAD_AS_COMPLETE))
+      .takeUntil(action$.ofType(uploadActions.MARK_UPLOAD_AS_COMPLETE))
       .mergeMap(action =>
         Observable.fromPromise(Iota.checkUploadPercentage(addresses))
-          .map(percentage => fileActions.updateUploadProgress(percentage))
+          .map(percentage => uploadActions.updateUploadProgress(percentage))
           .catch(error => Observable.empty())
       );
   });
@@ -61,12 +61,12 @@ function checkUploadProgress(action$, store) {
 
 function markUploadAsComplete(action$, store) {
   return action$
-    .ofType(fileActions.UPDATE_UPLOAD_PROGRESS)
+    .ofType(uploadActions.UPDATE_UPLOAD_PROGRESS)
     .filter(action => {
       const percentage = action.payload;
       return percentage >= 100;
     })
-    .map(() => fileActions.markUploadAsComplete());
+    .map(() => uploadActions.markUploadAsComplete());
 }
 
 export default combineEpics(
