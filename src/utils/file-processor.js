@@ -27,7 +27,7 @@ const uploadFileToBrokerNodes = (file, handle) => {
       ])
     )
     .then(() => {
-      return { numberOfChunks: byteChunks.length, genesisHash };
+      return { numberOfChunks: byteChunks.length, handle, fileName: file.name };
     });
 };
 

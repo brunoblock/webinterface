@@ -23,8 +23,8 @@ function uploadFile(action$, store) {
     return Observable.fromPromise(
       FileProcessor.uploadFileToBrokerNodes(file, handle)
     )
-      .map(({ numberOfChunks, genesisHash }) =>
-        fileActions.uploadSuccessAction({ numberOfChunks, genesisHash })
+      .map(({ numberOfChunks, handle, fileName }) =>
+        fileActions.uploadSuccessAction({ numberOfChunks, handle, fileName })
       )
       .catch(error => {
         console.log("UPLOAD FILE EPIC ERROR: ", error);
@@ -35,8 +35,8 @@ function uploadFile(action$, store) {
 
 function checkUploadProgress(action$, store) {
   return action$.ofType(fileActions.UPLOAD_SUCCESS).switchMap(action => {
-    const { numberOfChunks, genesisHash } = action.payload;
-    const datamap = Datamap.generate(numberOfChunks, genesisHash);
+    const { numberOfChunks, handle } = action.payload;
+    const datamap = Datamap.generate(handle, numberOfChunks);
     const addresses = _.values(datamap).map(trytes =>
       trytes.substr(0, IOTA_API.ADDRESS_LENGTH)
     );
