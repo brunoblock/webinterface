@@ -3,9 +3,7 @@ import { connect } from "react-redux";
 
 import fileActions from "../../redux/actions/file-actions";
 
-const mapStateToProps = state => ({
-  file: state.file
-});
+const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
   initializeUploadFn: file => dispatch(fileActions.initializeUploadAction(file))
 });
@@ -30,7 +28,6 @@ class Main extends Component {
         >
           Upload a file.
         </button>
-        <span>UPLOAD PROGRESS: {file.progressBarPercentage}%</span>
       </div>
     );
   }
