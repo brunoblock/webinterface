@@ -1,5 +1,5 @@
 const INITIALIZE_UPLOAD = "oyster/file/initialize_upload";
-const CREATE_HANDLE = "oyster/file/create_handle";
+const BEGIN_UPLOAD = "oyster/file/begin_upload";
 const UPLOAD = "oyster/file/upload";
 const UPLOAD_SUCCESS = "oyster/file/upload_success";
 const UPLOAD_FAILURE = "oyster/file/upload_failure";
@@ -9,7 +9,7 @@ const MARK_UPLOAD_AS_COMPLETE = "oyster/file/mark_upload_as_complete";
 const ACTIONS = Object.freeze({
   // actions
   INITIALIZE_UPLOAD,
-  CREATE_HANDLE,
+  BEGIN_UPLOAD,
   UPLOAD,
   UPLOAD_SUCCESS,
   UPLOAD_FAILURE,
@@ -21,9 +21,9 @@ const ACTIONS = Object.freeze({
     type: ACTIONS.INITIALIZE_UPLOAD,
     payload: file
   }),
-  createHandleAction: ({ file, handle }) => ({
-    type: ACTIONS.CREATE_HANDLE,
-    payload: { file, handle }
+  beginUploadAction: ({ file, handle, fileName, numberOfChunks }) => ({
+    type: ACTIONS.BEGIN_UPLOAD,
+    payload: { file, handle, fileName, numberOfChunks }
   }),
   uploadAction: ({ file, handle }) => ({
     type: ACTIONS.UPLOAD,

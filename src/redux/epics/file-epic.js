@@ -9,16 +9,23 @@ import Iota from "services/iota";
 import Datamap from "utils/datamap";
 import FileProcessor from "utils/file-processor";
 
-function createHandle(action$, store) {
+function initializeUpload(action$, store) {
   return action$.ofType(fileActions.INITIALIZE_UPLOAD).map(action => {
     const file = action.payload;
-    const handle = FileProcessor.createHandle(file.name);
-    return fileActions.createHandleAction({ file, handle });
+    const { numberOfChunks, handle, fileName } = FileProcessor.initializeUpload(
+      file
+    );
+    return fileActions.beginUploadAction({
+      numberOfChunks,
+      handle,
+      fileName,
+      file
+    });
   });
 }
 
 function uploadFile(action$, store) {
-  return action$.ofType(fileActions.CREATE_HANDLE).mergeMap(action => {
+  return action$.ofType(fileActions.BEGIN_UPLOAD).mergeMap(action => {
     const { file, handle } = action.payload;
     return Observable.fromPromise(
       FileProcessor.uploadFileToBrokerNodes(file, handle)
@@ -63,7 +70,7 @@ function markUploadAsComplete(action$, store) {
 }
 
 export default combineEpics(
-  createHandle,
+  initializeUpload,
   uploadFile,
   checkUploadProgress,
   markUploadAsComplete

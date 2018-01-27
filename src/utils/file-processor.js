@@ -15,8 +15,15 @@ const chunkGenerator = ({ idx, data, hash }) => {
   return { idx, data, hash };
 };
 
+const initializeUpload = file => {
+  const numberOfChunks = createByteLocations(file.size).length;
+  const handle = createHandle(file.name);
+  const fileName = file.name;
+  return { numberOfChunks, handle, fileName };
+};
+
 const uploadFileToBrokerNodes = (file, handle) => {
-  const byteChunks = createByteChunks(file);
+  const byteChunks = createByteChunks(file.size);
   const genesisHash = sha256(handle);
 
   return createUploadSession(file.size, genesisHash)
@@ -40,10 +47,13 @@ const createHandle = fileName => {
   return handle;
 };
 
-const createByteChunks = file => {
+const createByteLocations = fileSizeBytes =>
+  _.range(0, fileSizeBytes, FILE.CHUNK_BYTE_SIZE + 1);
+
+const createByteChunks = fileSizeBytes => {
   // This returns an array with the starting byte pointers
   // ex: For a 150 byte file it would return: [0, 1001, 2002, 3003, 4004]
-  const byteLocations = _.range(0, file.size, FILE.CHUNK_BYTE_SIZE + 1);
+  const byteLocations = createByteLocations(fileSizeBytes);
   const byteChunks = _.map(byteLocations, (byte, index) => {
     return { chunkIdx: index + 1, chunkStartingPoint: byte };
   });
@@ -198,9 +208,9 @@ const assembleMetaData = (name, extension) => {
 };
 
 export default {
+  initializeUpload,
   uploadFileToBrokerNodes,
   sendChunkToBroker,
-  createHandle,
   createByteChunks,
   createUploadSession,
   buildMetaDataPacket
