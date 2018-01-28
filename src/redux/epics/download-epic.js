@@ -8,6 +8,8 @@ import Iota from "services/iota";
 import Datamap from "utils/datamap";
 import Encryption from "utils/encryption";
 
+global.iota = Iota;
+
 function beginDownload(action$, store) {
   return action$.ofType(downloadActions.BEGIN_DOWNLOAD).mergeMap(action => {
     const { handle, fileName, numberOfChunks } = action.payload;
@@ -20,11 +22,13 @@ function beginDownload(action$, store) {
         console.log("IOTA TRANSACTIONS FOUND: ", transactions);
         transactions.slice(1, transactions.length).forEach(t => {
           const message = t.signatureMessageFragment;
+          console.log("MESSAGE: ", message);
           const evenChars =
             message.length % 2 === 0
               ? message
               : message.substr(0, message.length - 1);
           const data = Iota.utils.fromTrytes(evenChars);
+          console.log("STILL ENCRYPTEDDDD LENGTH: ", data.length);
           console.log("STILL ENCRYPTEDDDD: ", data);
           const decrypted = Encryption.decrypt(data, handle);
           console.log("DATAAAAAAAAA: ", decrypted);
