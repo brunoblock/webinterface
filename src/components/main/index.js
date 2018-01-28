@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import uploadActions from "../../redux/actions/upload-actions";
 
 const mapStateToProps = state => ({
-  uploads: state.file.uploads
+  uploadHistory: state.upload.history
 });
 const mapDispatchToProps = dispatch => ({
   initializeUploadFn: file =>
@@ -13,16 +13,16 @@ const mapDispatchToProps = dispatch => ({
 
 class Main extends Component {
   renderUploadRow(upload) {
-    const { fileName, progress, handle } = upload;
+    const { fileName, uploadProgress, handle } = upload;
     return (
       <span key={handle}>
-        {fileName}: UPLOAD PROGRESS: {progress}
+        {fileName}: UPLOAD PROGRESS: {uploadProgress}%
       </span>
     );
   }
 
   render() {
-    const { initializeUploadFn, uploads } = this.props;
+    const { initializeUploadFn, uploadHistory } = this.props;
     return (
       <div>
         <input
@@ -40,7 +40,7 @@ class Main extends Component {
         >
           Upload a file.
         </button>
-        <div>{uploads.map(upload => this.renderUploadRow(upload))}</div>
+        <div>{uploadHistory.map(upload => this.renderUploadRow(upload))}</div>
       </div>
     );
   }

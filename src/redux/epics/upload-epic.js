@@ -24,6 +24,17 @@ function initializeUpload(action$, store) {
   });
 }
 
+function saveToHistory(action$, store) {
+  return action$.ofType(uploadActions.BEGIN_UPLOAD).map(action => {
+    const { numberOfChunks, handle, fileName } = action.payload;
+    return uploadActions.addToHistoryAction({
+      numberOfChunks,
+      handle,
+      fileName
+    });
+  });
+}
+
 function uploadFile(action$, store) {
   return action$.ofType(uploadActions.BEGIN_UPLOAD).mergeMap(action => {
     const { file, handle } = action.payload;
@@ -53,7 +64,9 @@ function checkUploadProgress(action$, store) {
       .takeUntil(action$.ofType(uploadActions.MARK_UPLOAD_AS_COMPLETE))
       .mergeMap(action =>
         Observable.fromPromise(Iota.checkUploadPercentage(addresses))
-          .map(percentage => uploadActions.updateUploadProgress(percentage))
+          .map(uploadProgress =>
+            uploadActions.updateUploadProgress({ handle, uploadProgress })
+          )
           .catch(error => Observable.empty())
       );
   });
@@ -63,14 +76,15 @@ function markUploadAsComplete(action$, store) {
   return action$
     .ofType(uploadActions.UPDATE_UPLOAD_PROGRESS)
     .filter(action => {
-      const percentage = action.payload;
-      return percentage >= 100;
+      const { uploadProgress } = action.payload;
+      return uploadProgress >= 100;
     })
     .map(() => uploadActions.markUploadAsComplete());
 }
 
 export default combineEpics(
   initializeUpload,
+  saveToHistory,
   uploadFile,
   checkUploadProgress,
   markUploadAsComplete

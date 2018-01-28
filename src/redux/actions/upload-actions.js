@@ -1,15 +1,17 @@
-const INITIALIZE_UPLOAD = "oyster/file/initialize_upload";
-const BEGIN_UPLOAD = "oyster/file/begin_upload";
-const UPLOAD = "oyster/file/upload";
-const UPLOAD_SUCCESS = "oyster/file/upload_success";
-const UPLOAD_FAILURE = "oyster/file/upload_failure";
-const UPDATE_UPLOAD_PROGRESS = "oyster/file/update_upload_progress";
-const MARK_UPLOAD_AS_COMPLETE = "oyster/file/mark_upload_as_complete";
+const INITIALIZE_UPLOAD = "oyster/upload/initialize_upload";
+const BEGIN_UPLOAD = "oyster/upload/begin_upload";
+const ADD_TO_HISTORY = "oyster/upload/add_to_history";
+const UPLOAD = "oyster/upload/upload";
+const UPLOAD_SUCCESS = "oyster/upload/upload_success";
+const UPLOAD_FAILURE = "oyster/upload/upload_failure";
+const UPDATE_UPLOAD_PROGRESS = "oyster/upload/update_upload_progress";
+const MARK_UPLOAD_AS_COMPLETE = "oyster/upload/mark_upload_as_complete";
 
 const ACTIONS = Object.freeze({
   // actions
   INITIALIZE_UPLOAD,
   BEGIN_UPLOAD,
+  ADD_TO_HISTORY,
   UPLOAD,
   UPLOAD_SUCCESS,
   UPLOAD_FAILURE,
@@ -25,6 +27,10 @@ const ACTIONS = Object.freeze({
     type: ACTIONS.BEGIN_UPLOAD,
     payload: { file, handle, fileName, numberOfChunks }
   }),
+  addToHistoryAction: ({ numberOfChunks, fileName, handle }) => ({
+    type: ACTIONS.ADD_TO_HISTORY,
+    payload: { numberOfChunks, fileName, handle }
+  }),
   uploadAction: ({ file, handle }) => ({
     type: ACTIONS.UPLOAD,
     payload: { file, handle }
@@ -37,9 +43,9 @@ const ACTIONS = Object.freeze({
     type: ACTIONS.UPLOAD_FAILURE,
     payload: error
   }),
-  updateUploadProgress: percentage => ({
+  updateUploadProgress: ({ handle, uploadProgress }) => ({
     type: ACTIONS.UPDATE_UPLOAD_PROGRESS,
-    payload: percentage
+    payload: { handle, uploadProgress }
   }),
   markUploadAsComplete: () => ({ type: ACTIONS.MARK_UPLOAD_AS_COMPLETE })
 });
