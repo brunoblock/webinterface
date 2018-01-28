@@ -85,6 +85,7 @@ const createReader = onRead => {
   reader.onloadend = function(evt) {
     if (evt.target.readyState === FileReader.DONE) {
       const arrayBuffer = evt.target.result;
+      console.log("UPLOADING ARRAY BUFFER: ", arrayBuffer);
       const encoded = Base64.encode(arrayBuffer);
       onRead(encoded);
     }

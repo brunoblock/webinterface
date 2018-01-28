@@ -15,8 +15,9 @@ const ACTIONS = Object.freeze({
   downloadSuccessAction: () => ({
     type: ACTIONS.DOWNLOAD_SUCCESS
   }),
-  downloadFailureAction: () => ({
-    type: ACTIONS.DOWNLOAD_FAILURE
+  downloadFailureAction: error => ({
+    type: ACTIONS.DOWNLOAD_FAILURE,
+    payload: error
   })
 });
 

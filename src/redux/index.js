@@ -16,8 +16,7 @@ const middleware = [
 const persistConfig = {
   key: "oyster",
   storage: storage,
-  // whitelist: ["upload"]
-  whitelist: []
+  whitelist: ["upload"]
 };
 
 export const store = createStore(

@@ -2,6 +2,7 @@ import { Observable } from "rxjs";
 import { combineEpics } from "redux-observable";
 import _ from "lodash";
 import Base64 from "base64-arraybuffer";
+import FileSaver from "file-saver";
 
 import downloadActions from "redux/actions/download-actions";
 import { IOTA_API } from "config";
@@ -36,11 +37,20 @@ function beginDownload(action$, store) {
             return Base64.decode(encodedData);
           });
 
-        console.log("DECRYPTED CHUNKS: ", decryptedChunks);
+        const arrayBuffer = _.flatten(decryptedChunks);
+        console.log("DOWNLOADING ARRAY BUFFER: ", arrayBuffer);
+
+        const blob = new Blob(arrayBuffer);
+
+        console.log("BLOB: ", blob);
+        FileSaver.saveAs(blob, fileName);
 
         return downloadActions.downloadSuccessAction();
       })
-      .catch(error => downloadActions.downloadFailureAction(error));
+      .catch(error => {
+        console.log("DOWNLOAD ERROR: ", error);
+        return Observable.empty();
+      });
   });
 }
 
