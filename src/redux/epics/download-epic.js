@@ -8,19 +8,19 @@ import Iota from "services/iota";
 import Datamap from "utils/datamap";
 
 function beginDownload(action$, store) {
-  return action$.ofType(downloadActions.BEGIN_DOWNLOAD).map(action => {
+  return action$.ofType(downloadActions.BEGIN_DOWNLOAD).mergeMap(action => {
     const { handle, fileName, numberOfChunks } = action.payload;
     const datamap = Datamap.generate(handle, numberOfChunks);
     const addresses = _.values(datamap).map(trytes =>
       trytes.substr(0, IOTA_API.ADDRESS_LENGTH)
     );
-    console.log("POLLING 81 CHARACTER IOTA ADDRESSES: ", addresses);
-    return Observable.fromPromise(Iota.findTransactions(addresses))
-      .map(transactions =>
-        
-      )
-      .catch(error => Observable.empty())
 
+    return Observable.fromPromise(Iota.findTransactions(addresses))
+      .map(transactions => {
+        console.log("IOTA TRANSACTIONS FOUND: ", transactions);
+        return downloadActions.downloadSuccessAction();
+      })
+      .catch(error => downloadActions.downloadFailureAction(error));
   });
 }
 
