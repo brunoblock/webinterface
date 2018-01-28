@@ -1,6 +1,7 @@
 import { Observable } from "rxjs";
 import { combineEpics } from "redux-observable";
 import _ from "lodash";
+import Base64 from "base64-arraybuffer";
 
 import downloadActions from "redux/actions/download-actions";
 import { IOTA_API } from "config";
@@ -9,6 +10,7 @@ import Datamap from "utils/datamap";
 import Encryption from "utils/encryption";
 
 global.iota = Iota;
+global.encryption = Encryption;
 
 function beginDownload(action$, store) {
   return action$.ofType(downloadActions.BEGIN_DOWNLOAD).mergeMap(action => {
@@ -20,19 +22,22 @@ function beginDownload(action$, store) {
     return Observable.fromPromise(Iota.findTransactions(addresses))
       .map(transactions => {
         console.log("IOTA TRANSACTIONS FOUND: ", transactions);
-        transactions.slice(1, transactions.length).forEach(t => {
-          const message = t.signatureMessageFragment;
-          console.log("MESSAGE: ", message);
-          const evenChars =
-            message.length % 2 === 0
-              ? message
-              : message.substr(0, message.length - 1);
-          const data = Iota.utils.fromTrytes(evenChars);
-          console.log("STILL ENCRYPTEDDDD LENGTH: ", data.length);
-          console.log("STILL ENCRYPTEDDDD: ", data);
-          const decrypted = Encryption.decrypt(data, handle);
-          console.log("DATAAAAAAAAA: ", decrypted);
-        });
+        const decryptedChunks = transactions
+          .slice(1, transactions.length)
+          .map(t => {
+            const message = t.signatureMessageFragment;
+            console.log("MESSAGE: ", message);
+            const evenChars =
+              message.length % 2 === 0
+                ? message
+                : message.substr(0, message.length - 1);
+            const data = Iota.utils.fromTrytes(evenChars);
+            const encodedData = Encryption.decrypt(data, handle);
+            return Base64.decode(encodedData);
+          });
+
+        console.log("DECRYPTED CHUNKS: ", decryptedChunks);
+
         return downloadActions.downloadSuccessAction();
       })
       .catch(error => downloadActions.downloadFailureAction(error));

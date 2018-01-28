@@ -2,6 +2,7 @@ import _ from "lodash";
 import axios from "axios";
 import Encryption from "utils/encryption";
 import { API, FILE } from "config";
+import Base64 from "base64-arraybuffer";
 
 const {
   parseEightCharsOfFilename,
@@ -83,7 +84,9 @@ const createReader = onRead => {
   const reader = new FileReader();
   reader.onloadend = function(evt) {
     if (evt.target.readyState === FileReader.DONE) {
-      onRead(evt.target.result);
+      const arrayBuffer = evt.target.result;
+      const encoded = Base64.encode(arrayBuffer);
+      onRead(encoded);
     }
   };
   return reader;
@@ -91,9 +94,10 @@ const createReader = onRead => {
 
 const sendChunkToBroker = (sessionId, chunkIdx, data, handle, genesisHash) =>
   new Promise((resolve, reject) => {
+    console.log("RAW DATA: ", data);
     const encryptedData = encrypt(data, handle);
     console.log("CHUNK IDX: ", chunkIdx);
-    console.log("DATA: ", encryptedData);
+    console.log("ENCRYPTED DATA: ", encryptedData);
     axios
       .put(`${API.HOST}${API.V1_UPLOAD_SESSIONS_PATH}/${sessionId}`, {
         chunk: chunkGenerator({
@@ -138,7 +142,7 @@ const sendFileContentsToBroker = (
             genesisHash
           ).then(resolve);
         });
-        reader.readAsBinaryString(blob);
+        reader.readAsArrayBuffer(blob);
       })
   );
 

@@ -27,7 +27,7 @@ const encrypt = (text, secretKey) =>
   CryptoJS.AES.encrypt(text, secretKey).toString();
 
 const decrypt = (text, secretKey) =>
-  CryptoJS.AES.decrypt(text, secretKey).toString();
+  CryptoJS.AES.decrypt(text, secretKey).toString(CryptoJS.enc.Utf8);
 
 export default {
   parseEightCharsOfFilename,
