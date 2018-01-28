@@ -10,9 +10,6 @@ import Iota from "services/iota";
 import Datamap from "utils/datamap";
 import Encryption from "utils/encryption";
 
-global.iota = Iota;
-global.encryption = Encryption;
-
 function beginDownload(action$, store) {
   return action$.ofType(downloadActions.BEGIN_DOWNLOAD).mergeMap(action => {
     const { handle, fileName, numberOfChunks } = action.payload;
@@ -22,12 +19,11 @@ function beginDownload(action$, store) {
     );
     return Observable.fromPromise(Iota.findTransactions(addresses))
       .map(transactions => {
-        console.log("IOTA TRANSACTIONS FOUND: ", transactions);
         const decryptedChunks = transactions
           .slice(1, transactions.length)
           .map(t => {
             const message = t.signatureMessageFragment;
-            console.log("MESSAGE: ", message);
+            // IOTA responds with 2187 characters, even though fromTrytes only takes even numbers...
             const evenChars =
               message.length % 2 === 0
                 ? message
@@ -38,11 +34,7 @@ function beginDownload(action$, store) {
           });
 
         const arrayBuffer = _.flatten(decryptedChunks);
-        console.log("DOWNLOADING ARRAY BUFFER: ", arrayBuffer);
-
         const blob = new Blob(arrayBuffer);
-
-        console.log("BLOB: ", blob);
         FileSaver.saveAs(blob, fileName);
 
         return downloadActions.downloadSuccessAction();

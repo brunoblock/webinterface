@@ -47,7 +47,10 @@ const ACTIONS = Object.freeze({
     type: ACTIONS.UPDATE_UPLOAD_PROGRESS,
     payload: { handle, uploadProgress }
   }),
-  markUploadAsComplete: () => ({ type: ACTIONS.MARK_UPLOAD_AS_COMPLETE })
+  markUploadAsComplete: handle => ({
+    type: ACTIONS.MARK_UPLOAD_AS_COMPLETE,
+    payload: handle
+  })
 });
 
 export default ACTIONS;

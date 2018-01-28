@@ -21,9 +21,9 @@ class Main extends Component {
     const { fileName, uploadProgress, handle, numberOfChunks } = upload;
     if (uploadProgress < 100) {
       return (
-        <span key={handle}>
+        <p key={handle}>
           {fileName}: UPLOAD PROGRESS: {uploadProgress}%
-        </span>
+        </p>
       );
     } else {
       return (

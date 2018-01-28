@@ -61,7 +61,12 @@ function checkUploadProgress(action$, store) {
     console.log("POLLING 81 CHARACTER IOTA ADDRESSES: ", addresses);
 
     return Observable.interval(2000)
-      .takeUntil(action$.ofType(uploadActions.MARK_UPLOAD_AS_COMPLETE))
+      .takeUntil(
+        action$.ofType(uploadActions.MARK_UPLOAD_AS_COMPLETE).filter(a => {
+          const completedFileHandle = a.payload;
+          return handle === completedFileHandle;
+        })
+      )
       .mergeMap(action =>
         Observable.fromPromise(Iota.checkUploadPercentage(addresses))
           .map(uploadProgress =>
@@ -79,7 +84,10 @@ function markUploadAsComplete(action$, store) {
       const { uploadProgress } = action.payload;
       return uploadProgress >= 100;
     })
-    .map(() => uploadActions.markUploadAsComplete());
+    .map(action => {
+      const { handle } = action.payload;
+      return uploadActions.markUploadAsComplete(handle);
+    });
 }
 
 export default combineEpics(
