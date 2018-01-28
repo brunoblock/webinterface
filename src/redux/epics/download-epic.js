@@ -10,7 +10,7 @@ import Iota from "services/iota";
 import Datamap from "utils/datamap";
 import Encryption from "utils/encryption";
 
-function beginDownload(action$, store) {
+const beginDownload = (action$, store) => {
   return action$.ofType(downloadActions.BEGIN_DOWNLOAD).mergeMap(action => {
     const { handle, fileName, numberOfChunks } = action.payload;
     const datamap = Datamap.generate(handle, numberOfChunks);
@@ -44,6 +44,6 @@ function beginDownload(action$, store) {
         return Observable.empty();
       });
   });
-}
+};
 
 export default combineEpics(beginDownload);

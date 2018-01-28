@@ -1,6 +1,5 @@
 export const API = Object.freeze({
   HOST: "http://localhost:8000",
-  // HOST: "http://165.227.79.113:80",
   V1_UPLOAD_SESSIONS_PATH: "/api/v1/upload-sessions"
 });
 

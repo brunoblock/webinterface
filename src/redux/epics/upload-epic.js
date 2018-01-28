@@ -9,7 +9,7 @@ import Iota from "services/iota";
 import Datamap from "utils/datamap";
 import FileProcessor from "utils/file-processor";
 
-function initializeUpload(action$, store) {
+const initializeUpload = (action$, store) => {
   return action$.ofType(uploadActions.INITIALIZE_UPLOAD).map(action => {
     const file = action.payload;
     const { numberOfChunks, handle, fileName } = FileProcessor.initializeUpload(
@@ -22,9 +22,9 @@ function initializeUpload(action$, store) {
       file
     });
   });
-}
+};
 
-function saveToHistory(action$, store) {
+const saveToHistory = (action$, store) => {
   return action$.ofType(uploadActions.BEGIN_UPLOAD).map(action => {
     const { numberOfChunks, handle, fileName } = action.payload;
     return uploadActions.addToHistoryAction({
@@ -33,9 +33,9 @@ function saveToHistory(action$, store) {
       fileName
     });
   });
-}
+};
 
-function uploadFile(action$, store) {
+const uploadFile = (action$, store) => {
   return action$.ofType(uploadActions.BEGIN_UPLOAD).mergeMap(action => {
     const { file, handle } = action.payload;
     return Observable.fromPromise(
@@ -49,9 +49,9 @@ function uploadFile(action$, store) {
         return uploadActions.uploadFailureAction;
       });
   });
-}
+};
 
-function checkUploadProgress(action$, store) {
+const checkUploadProgress = (action$, store) => {
   return action$.ofType(uploadActions.UPLOAD_SUCCESS).switchMap(action => {
     const { numberOfChunks, handle } = action.payload;
     const datamap = Datamap.generate(handle, numberOfChunks);
@@ -75,9 +75,9 @@ function checkUploadProgress(action$, store) {
           .catch(error => Observable.empty())
       );
   });
-}
+};
 
-function markUploadAsComplete(action$, store) {
+const markUploadAsComplete = (action$, store) => {
   return action$
     .ofType(uploadActions.UPDATE_UPLOAD_PROGRESS)
     .filter(action => {
@@ -88,7 +88,7 @@ function markUploadAsComplete(action$, store) {
       const { handle } = action.payload;
       return uploadActions.markUploadAsComplete(handle);
     });
-}
+};
 
 export default combineEpics(
   initializeUpload,
