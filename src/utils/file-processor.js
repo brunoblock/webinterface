@@ -92,6 +92,8 @@ const createReader = onRead => {
 const sendChunkToBroker = (sessionId, chunkIdx, data, handle, genesisHash) =>
   new Promise((resolve, reject) => {
     const encryptedData = encrypt(data, handle);
+    console.log("CHUNK IDX: ", chunkIdx);
+    console.log("DATA: ", encryptedData);
     axios
       .put(`${API.HOST}${API.V1_UPLOAD_SESSIONS_PATH}/${sessionId}`, {
         chunk: chunkGenerator({

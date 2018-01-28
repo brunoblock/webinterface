@@ -23,11 +23,11 @@ const getPrimordialHash = () => {
 
 const sha256 = message => CryptoJS.SHA256(message).toString();
 
-const encrypt = (message, secretKey) =>
-  CryptoJS.AES.encrypt(message, secretKey).toString();
+const encrypt = (text, secretKey) =>
+  CryptoJS.AES.encrypt(text, secretKey).toString();
 
-const decrypt = (ciphertext, secretKey) =>
-  CryptoJS.AES.decrypt(ciphertext, secretKey);
+const decrypt = (text, secretKey) =>
+  CryptoJS.AES.decrypt(text, secretKey).toString();
 
 export default {
   parseEightCharsOfFilename,
