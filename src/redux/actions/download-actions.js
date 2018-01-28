@@ -5,9 +5,9 @@ const ACTIONS = Object.freeze({
   BEGIN_DOWNLOAD,
 
   // actionCreators
-  beginDownloadAction: handle => ({
+  beginDownloadAction: ({ fileName, handle, numberOfChunks }) => ({
     type: ACTIONS.BEGIN_DOWNLOAD,
-    payload: handle
+    payload: { fileName, handle, numberOfChunks }
   })
 });
 

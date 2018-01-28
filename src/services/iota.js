@@ -22,7 +22,23 @@ const checkUploadPercentage = addresses =>
     );
   });
 
+const findTransactions = addresses =>
+  new Promise((resolve, reject) => {
+    Iota.api.findTransactionObjects(
+      { addresses },
+      (error, transactionObjects) => {
+        if (error) {
+          console.log("IOTA ERROR: ", error);
+        }
+        console.log("FOUND TRANSACTIONS: ", transactionObjects);
+        const settledTransactions = transactionObjects || [];
+        resolve(settledTransactions);
+      }
+    );
+  });
+
 export default {
   checkUploadPercentage,
+  findTransactions,
   utils: Iota.utils
 };

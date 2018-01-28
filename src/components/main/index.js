@@ -8,14 +8,17 @@ const mapStateToProps = state => ({
   uploadHistory: state.upload.history
 });
 const mapDispatchToProps = dispatch => ({
-  beginDownloadFn: handle => dispatch(downloadActions.beginDownloadFn(handle)),
+  beginDownloadFn: ({ fileName, handle, numberOfChunks }) =>
+    dispatch(
+      downloadActions.beginDownloadAction({ fileName, handle, numberOfChunks })
+    ),
   initializeUploadFn: file =>
     dispatch(uploadActions.initializeUploadAction(file))
 });
 
 class Main extends Component {
-  renderUploadRow(upload) {
-    const { fileName, uploadProgress, handle } = upload;
+  renderUploadRow(upload, downloadFileFn) {
+    const { fileName, uploadProgress, handle, numberOfChunks } = upload;
     if (uploadProgress < 100) {
       return (
         <span key={handle}>
@@ -25,7 +28,9 @@ class Main extends Component {
     } else {
       return (
         <span key={handle}>
-          <button onClick={() => console.log("heyyyyyyyY")}>
+          <button
+            onClick={() => downloadFileFn({ fileName, handle, numberOfChunks })}
+          >
             DOWNLOAD {fileName}
           </button>
         </span>
@@ -34,7 +39,7 @@ class Main extends Component {
   }
 
   render() {
-    const { initializeUploadFn, uploadHistory } = this.props;
+    const { initializeUploadFn, uploadHistory, beginDownloadFn } = this.props;
     return (
       <div>
         <input
@@ -52,7 +57,11 @@ class Main extends Component {
         >
           Upload a file.
         </button>
-        <div>{uploadHistory.map(upload => this.renderUploadRow(upload))}</div>
+        <div>
+          {uploadHistory.map(upload =>
+            this.renderUploadRow(upload, beginDownloadFn)
+          )}
+        </div>
       </div>
     );
   }

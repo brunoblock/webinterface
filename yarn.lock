@@ -5741,6 +5741,10 @@ redux-observable@^0.17.0:
   version "0.17.0"
   resolved "https://registry.yarnpkg.com/redux-observable/-/redux-observable-0.17.0.tgz#23e29e3f3c39204b7ed6a14b67a29e317c03106b"
 
+redux-persist@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-5.5.0.tgz#64b5030625cb6f863f76487975acb8bb4fe4f9bb"
+
 redux@^3.7.2:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.7.2.tgz#06b73123215901d25d065be342eb026bc1c8537b"
@@ -6764,11 +6768,7 @@ uuid@^2.0.1, uuid@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
 
-uuid@^3.0.0, uuid@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
-
-uuid@^3.2.1:
+uuid@^3.0.0, uuid@^3.1.0, uuid@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 
