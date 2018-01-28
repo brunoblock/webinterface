@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import uploadActions from "../../redux/actions/upload-actions";
+import downloadActions from "../../redux/actions/download-actions";
 
 const mapStateToProps = state => ({
   uploadHistory: state.upload.history
 });
 const mapDispatchToProps = dispatch => ({
+  beginDownloadFn: handle => dispatch(downloadActions.beginDownloadFn(handle)),
   initializeUploadFn: file =>
     dispatch(uploadActions.initializeUploadAction(file))
 });
@@ -14,11 +16,21 @@ const mapDispatchToProps = dispatch => ({
 class Main extends Component {
   renderUploadRow(upload) {
     const { fileName, uploadProgress, handle } = upload;
-    return (
-      <span key={handle}>
-        {fileName}: UPLOAD PROGRESS: {uploadProgress}%
-      </span>
-    );
+    if (uploadProgress < 100) {
+      return (
+        <span key={handle}>
+          {fileName}: UPLOAD PROGRESS: {uploadProgress}%
+        </span>
+      );
+    } else {
+      return (
+        <span key={handle}>
+          <button onClick={() => console.log("heyyyyyyyY")}>
+            DOWNLOAD {fileName}
+          </button>
+        </span>
+      );
+    }
   }
 
   render() {
