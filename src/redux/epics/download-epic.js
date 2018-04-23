@@ -44,7 +44,8 @@ const initializeDownload = (action$, store) => {
 const beginDownload = (action$, store) => {
   return action$.ofType(downloadActions.BEGIN_DOWNLOAD).mergeMap(action => {
     const { handle, fileName, numberOfChunks } = action.payload;
-    const datamap = genDatamap(handle, numberOfChunks);
+    const datamapOpts = { includeTreasureOffsets: true };
+    const datamap = genDatamap(handle, numberOfChunks, datamapOpts);
     const addresses = _.values(datamap);
     const nonMetaDataAddresses = addresses.slice(1, addresses.length);
 
