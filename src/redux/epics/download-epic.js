@@ -65,14 +65,11 @@ const beginDownload = (action$, store) => {
           tx => addrToIdx[tx.address]
         );
 
-        const encryptedFileContents = orderedTransactions
+        const bytesArray = orderedTransactions
           .map(tx => tx.signatureMessageFragment)
+          .map(msg => FileProcessor.decryptFile(msg, handle))
+          .filter(x => !!x) // Remove nulls
           .join("");
-
-        const bytesArray = FileProcessor.decryptFile(
-          encryptedFileContents,
-          handle
-        );
 
         console.log("DOWNLOADED BYTES ARRAY", bytesArray);
 
