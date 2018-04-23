@@ -1,11 +1,11 @@
-import {Observable} from "rxjs";
-import {combineEpics} from "redux-observable";
+import { Observable } from "rxjs";
+import { combineEpics } from "redux-observable";
 import _ from "lodash";
 import FileSaver from "file-saver";
 
 import downloadActions from "redux/actions/download-actions";
 import Iota from "services/iota";
-import Datamap from "datamap-generator";
+import { generate as genDatamap } from "datamap-generator";
 import Encryption from "utils/encryption";
 import FileProcessor from "utils/file-processor";
 
@@ -44,7 +44,7 @@ const initializeDownload = (action$, store) => {
 const beginDownload = (action$, store) => {
   return action$.ofType(downloadActions.BEGIN_DOWNLOAD).mergeMap(action => {
     const { handle, fileName, numberOfChunks } = action.payload;
-    const datamap = Datamap.generate(handle, numberOfChunks);
+    const datamap = genDatamap(handle, numberOfChunks);
     const addresses = _.values(datamap);
     const nonMetaDataAddresses = addresses.slice(1, addresses.length);
 
