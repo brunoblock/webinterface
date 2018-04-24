@@ -38,3 +38,5 @@ export const FILE = Object.freeze({
     FILE_CONTENTS: "FILE_CONTENTS"
   }
 });
+
+export const INCLUDE_TREASURE_OFFSETS = false;
