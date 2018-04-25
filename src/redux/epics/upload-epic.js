@@ -71,6 +71,8 @@ const pollUploadProgress = (action$, store) => {
     const addresses = _.values(datamap);
     // console.log("POLLING 81 CHARACTER IOTA ADDRESSES: ", addresses);
 
+    Iota.initializePolling(addresses);
+
     return Observable.interval(5000)
       .takeUntil(
         Observable.merge(
@@ -83,9 +85,12 @@ const pollUploadProgress = (action$, store) => {
       )
       .mergeMap(action =>
         Observable.fromPromise(Iota.checkUploadPercentage(addresses))
-          .map(uploadProgress =>
-            uploadActions.updateUploadProgress({ handle, uploadProgress })
-          )
+          .map(uploadProgress => {
+            return uploadActions.updateUploadProgress({
+              handle,
+              uploadProgress
+            });
+          })
           .catch(error => Observable.empty())
       );
   });
