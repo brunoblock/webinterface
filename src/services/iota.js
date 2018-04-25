@@ -72,19 +72,17 @@ const skinnyQueryTransactions = (iotaProvider, addresses) =>
     );
   });
 
-const initializePolling = addresses =>
-  new Promise((resolve, reject) => {
-    totalLength = addresses.length;
+const initializePolling = addresses => {
+  totalLength = addresses.length;
 
-    indexes.startingIdx = 0;
-    indexes.endingIdx = addresses.length - 1;
-    indexes.latestFoundBackIdx = indexes.endingIdx;
+  indexes.startingIdx = 0;
+  indexes.endingIdx = addresses.length - 1;
+  indexes.latestFoundBackIdx = indexes.endingIdx;
 
-    indexes.frontIdx =
-      indexes.startingIdx + Math.floor(Math.random() * BUNDLE_SIZE);
-    indexes.backIdx =
-      indexes.endingIdx - Math.floor(Math.random() * BUNDLE_SIZE);
-  });
+  indexes.frontIdx =
+    indexes.startingIdx + Math.floor(Math.random() * BUNDLE_SIZE);
+  indexes.backIdx = indexes.endingIdx - Math.floor(Math.random() * BUNDLE_SIZE);
+};
 
 const checkUploadPercentage = addresses => {
   let backOfFile = new Promise((resolve, reject) => {
