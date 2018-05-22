@@ -1,7 +1,12 @@
+const IS_DEV = process.env.NODE_ENV === "development";
+
+// TODO: Script to set produciton values.
+const ALPHA_IP = IS_DEV ? "52.14.218.135" : "ALPHA_IP";
+const BETA_IP = IS_DEV ? "52.14.218.135" : "ALPHA_IP";
+
 export const API = Object.freeze({
-  HOST: "http://ALPHA_BROKER_IP",
-  BROKER_NODE_A: "http://ALPHA_BROKER_IP",
-  BROKER_NODE_B: "http://BETA_BROKER_IP",
+  BROKER_NODE_A: `http://${ALPHA_IP}`,
+  BROKER_NODE_B: `http://${BETA_IP}`,
   V1_UPLOAD_SESSIONS_PATH: ":3000/api/v1/upload-sessions",
   V2_UPLOAD_SESSIONS_PATH: ":3000/api/v2/upload-sessions",
   GAS_PRICE: "https://api.blockcypher.com/v1/eth/main",
@@ -9,9 +14,9 @@ export const API = Object.freeze({
 });
 
 export const IOTA_API = Object.freeze({
-  PROVIDER_A: "http://ALPHA_BROKER_IP:14265",
-  PROVIDER_B: "http://ALPHA_BROKER_IP:14265",
-  PROVIDER_C: "http://ALPHA_BROKER_IP:14265",
+  PROVIDER_A: `http://${ALPHA_IP}:14265`,
+  PROVIDER_B: `http://${BETA_IP}:14265`,
+  PROVIDER_C: `http://${ALPHA_IP}:14265`,
   ADDRESS_LENGTH: 81,
   MESSAGE_LENGTH: 2187,
   BUNDLE_SIZE: 100
