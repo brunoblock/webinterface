@@ -43,7 +43,7 @@ export const FILE = Object.freeze({
   }
 });
 
-export const INCLUDE_TREASURE_OFFSETS = false;
+export const INCLUDE_TREASURE_OFFSETS = true;
 export const NUM_BROKER_CHANNELS = 3; // number of broker cores - 1
 export const SECONDS_PER_CHUNK = 0.035; // if MWM is changed this will be incorrect
 export const MAX_ADDRESSES = 1000;
