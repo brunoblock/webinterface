@@ -2,7 +2,7 @@ const IS_DEV = process.env.NODE_ENV === "development";
 
 // TODO: Script to set produciton values.
 const ALPHA_IP = IS_DEV ? "52.14.218.135" : "ALPHA_IP";
-const BETA_IP = IS_DEV ? "52.14.218.135" : "ALPHA_IP";
+const BETA_IP = IS_DEV ? "18.217.133.146" : "BETA_IP";
 
 export const API = Object.freeze({
   BROKER_NODE_A: `http://${ALPHA_IP}`,
