@@ -10,7 +10,7 @@ const CHUNK_PREFIX_IN_HEX = forge.util.bytesToHex(CHUNK_PREFIX);
 export function bytesFromHandle(handle) {
   return forge.md.sha256
     .create()
-    .update(handle, 'utf8')
+    .update(handle, "utf8")
     .digest();
 }
 
@@ -67,7 +67,7 @@ const genesisHash = handle => {
 
 // First hash in the datamap
 const obfuscatedGenesisHash = hash => {
-  const byteStr = forge.util.hexToBytes(hash)
+  const byteStr = forge.util.hexToBytes(hash);
   const [obfuscatedHash, _genHash] = hashChain(byteStr);
 
   return forge.util.bytesToHex(obfuscatedHash);
