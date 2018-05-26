@@ -10,8 +10,28 @@ describe("Oyster file upload and download", () => {
         expect(location.pathname).to.eq("/upload-form");
       });
 
-      // Uploads image
+      // Uploads image and submit
       cy.uploadFile("#upload-input", "ditto.png");
+      cy.get("#start-upload-btn").click();
+
+      // Starts Polling
+      cy.location().should(location => {
+        expect(location.pathname).to.eq("/upload-started");
+      });
+
+      // Success (60s timeout)
+      cy.location("pathname", { timeout: 60000 }).should(path => {
+        expect(path).to.eq("/upload-complete");
+      });
+
+      let handle; // TODO: Use this for webnode tests
+      cy
+        .get("#oyster-handle")
+        .invoke("text")
+        .then(h => {
+          handle = h;
+          expect(handle).to.not.be.null;
+        });
     });
   });
 });
