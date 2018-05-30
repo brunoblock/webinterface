@@ -1,5 +1,7 @@
 const IS_DEV = process.env.NODE_ENV === "development";
 
+const POLLING_NODE = ["54.172.54.94"];
+
 const BROKERS = IS_DEV
   ? ["52.14.218.135", "18.217.133.146"] // QA brokers
   : //["18.188.64.13", "18.188.230.212"] // Rebel brokers
@@ -27,9 +29,9 @@ export const API = Object.freeze({
 });
 
 export const IOTA_API = Object.freeze({
-  PROVIDER_A: `http://${ALPHA_IP}:14265`,
-  PROVIDER_B: `http://${BETA_IP}:14265`,
-  PROVIDER_C: `http://${ALPHA_IP}:14265`,
+  PROVIDER_A: `http://${POLLING_NODE}:14265`,
+  PROVIDER_B: `http://${POLLING_NODE}:14265`,
+  PROVIDER_C: `http://${POLLING_NODE}:14265`,
   ADDRESS_LENGTH: 81,
   MESSAGE_LENGTH: 2187,
   BUNDLE_SIZE: 100
