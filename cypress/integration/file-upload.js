@@ -35,9 +35,13 @@ describe("Oyster file upload and download", () => {
         .then(handle => {
           expect(handle).to.not.be.null;
 
+          // Download file.
           cy.visit("http://localhost:3000/download-form");
           cy.get("#download-handle-input").type(handle);
           cy.get("#download-btn").click();
+
+          // Test webnode
+          cy.visit("https://oysterprotocol.github.io/webnode/");
         });
     });
   });
