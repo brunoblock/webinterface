@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import _ from "lodash";
+import last from "lodash/last";
 
 import ErrorPageSlide from "components/error-page/error-page-slide";
 
@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({});
 
 const ErrorPage = ({ history }) => {
-    const uploadedFile = _.last(history);
+    const uploadedFile = last(history);
     const handle = uploadedFile ? uploadedFile.handle : "";
     return <ErrorPageSlide handle={handle} />;
 };
