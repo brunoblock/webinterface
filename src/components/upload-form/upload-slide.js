@@ -207,13 +207,11 @@ class UploadSlide extends Component {
                 alert(`Please select retention years`);
               } else if (Number(retentionYears) > 1) {
                 alert(`For the beta mainnet, max storage years is 1.`);
+              } else if (FEAT_FLAG.STREAMING_UPLOAD) {
+                const brokers = { alpha: alphaBroker, beta: betaBroker };
+                streamUploadFn(file, retentionYears, brokers);
               } else {
-                if (FEAT_FLAG.STREAMING_UPLOAD) {
-                  const brokers = { alpha: alphaBroker, beta: betaBroker };
-                  streamUploadFn(file, retentionYears, brokers);
-                } else {
-                  upload(file, retentionYears);
-                }
+                upload(file, retentionYears);
               }
             }}
           >
