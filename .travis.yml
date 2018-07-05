@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '8'
+  - '9'
 sudo: false
 env:
   global:
@@ -15,14 +15,18 @@ before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
+  - yarn
+  - yarn start -- --silent &    # Silent to run E2E tests
 cache:
   yarn: true
   directories:
     - .eslintcache
     - node_modules
 script:
-  - yarn && yarn test:coverage
+  - yarn test:coverage          # Unit Tests
+  - yarn test:record            # E2E Tests
 after_script:
+  # Publishes Unit test report to Code Climate
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 notifications:
   slack:

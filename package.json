@@ -64,7 +64,8 @@
     "test": "jest",
     "test:watch": "cross-env NODE_PATH=src jest --watch --colors",
     "test:coverage": "cross-env NODE_PATH=src jest --coverage",
-    "test:cypress": "cypress open",
+    "test:e2e": "cypress open",
+    "test:record":"cypress run --record --key 6bc86c08-143a-4115-addc-07582df79025",
     "eject": "cross-env NODE_PATH=src react-scripts eject"
   },
   "jest": {
