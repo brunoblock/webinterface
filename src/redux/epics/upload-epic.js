@@ -43,22 +43,15 @@ const streamUploadEpic = action$ =>
     const {
       file,
       retentionYears,
-      brokers // { alpha, beta }
+      brokers: { alpha, beta }
     } = action.payload;
 
-    const params = {
-      file,
-      retentionYears,
-      brokers
-    };
+    const params = { alpha, beta, retentionYears };
 
     return Observable.create(o => {
-      // TODO: Update oyster-streamable to match this API.
-      streamUpload(params, {
+      streamUpload(file, params, {
         invoiceCb: invoice => {
-          let cost, ethAddress; // TODO
-
-          o.next(uploadActions.streamInvoiced({ cost, ethAddress }));
+          o.next(uploadActions.streamInvoiced(invoice));
         },
 
         paymentPendingCb: _ => {
@@ -66,31 +59,27 @@ const streamUploadEpic = action$ =>
         },
 
         paymentConfirmedCb: payload => {
-          let filename, handle, numberOfChunks; // TODO
-          o.next(
-            uploadActions.streamPaymentConfirmed({
-              filename,
-              handle,
-              numberOfChunks
-            })
-          );
+          o.next(uploadActions.streamPaymentConfirmed(payload));
         },
 
         uploadProgressCb: progress => {
-          o.next(uploadActions.streamUploadProgress({ progress }));
+          o.next(uploadActions.streamUploadProgress(progress));
         },
 
         doneCb: result => {
-          let handle; // TODO
-          o.complete(uploadActions.streamUploadSuccess({ handle }));
+          const { handle } = result;
+          o.next(uploadActions.streamUploadSuccess({ handle }));
+
+          o.complete();
         },
 
         errCb: err => {
           let handle; // TODO
           // window.alert the error.
+          o.next(uploadActions.streamUploadError({ handle, err }));
 
           // Use complete instead of error so observable isn't taken down.
-          o.complete(uploadActions.streamUploadError({ handle, err }));
+          o.complete();
         }
       });
     });

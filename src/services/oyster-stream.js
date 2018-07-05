@@ -1,4 +1,4 @@
-import { Upload } from "oyster-streamable";
+import Stream from "oyster-streamable";
 
 /**
  *
@@ -8,7 +8,7 @@ import { Upload } from "oyster-streamable";
  */
 export const streamUpload = (
   file,
-  { alpha, beta },
+  { alpha, beta, retentionYears },
   {
     invoiceCb,
     paymentPendingCb,
@@ -18,9 +18,11 @@ export const streamUpload = (
     errCb
   }
 ) => {
-  // TODO: Brokers are not yet configurable in oyster-streamable.
-  // They are hardcoded.
-  const u = Upload.fromFile(file, { brokers: { alpha, beta } });
+  const u = Stream.Upload.fromFile(file, {
+    alpha,
+    beta,
+    epochs: retentionYears
+  });
 
   u.on("invoice", invoiceCb);
   u.on("payment-pending", paymentPendingCb);
