@@ -45,7 +45,7 @@
     "babel-preset-react-native": "^4.0.0",
     "babel-preset-stage-2": "^6.24.1",
     "cross-env": "^5.1.4",
-    "cypress": "^2.1.0",
+    "cypress": "^3.0.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.3",
@@ -64,7 +64,7 @@
     "test": "jest",
     "test:watch": "cross-env NODE_PATH=src jest --watch --colors",
     "test:coverage": "cross-env NODE_PATH=src jest --coverage",
-    "cypress:open": "cypress open",
+    "test:cypress": "cypress open",
     "eject": "cross-env NODE_PATH=src react-scripts eject"
   },
   "jest": {
