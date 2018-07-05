@@ -77,7 +77,6 @@ const streamUploadEpic = action$ =>
         },
 
         uploadProgressCb: progress => {
-          // TODO: Pass in progress
           o.next(uploadActions.streamUploadProgress({ progress }));
         },
 

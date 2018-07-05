@@ -62,7 +62,7 @@ export const FILE = Object.freeze({
 });
 
 export const FEAT_FLAG = Object.freeze({
-  STREAMING_FILE: false
+  STREAMING_FILE: true
 });
 
 export const INCLUDE_TREASURE_OFFSETS = true;
