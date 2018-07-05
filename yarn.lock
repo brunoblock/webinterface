@@ -3343,8 +3343,8 @@ follow-redirects@^1.2.5:
     debug "^3.1.0"
 
 follow-redirects@^1.3.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.0.tgz#234f49cf770b7f35b40e790f636ceba0c3a0ab77"
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.1.tgz#67a8f14f5a1f67f962c2c46469c79eaec0a90291"
   dependencies:
     debug "^3.1.0"
 
@@ -5738,7 +5738,7 @@ output-file-sync@^1.1.2:
 
 "oyster-streamable@git+https://github.com/oysterprotocol/oyster-streamable.git":
   version "0.0.1"
-  resolved "git+https://github.com/oysterprotocol/oyster-streamable.git#403d65140a3d32616ba961144f3a590f78c4f52d"
+  resolved "git+https://github.com/oysterprotocol/oyster-streamable.git#80578cd274ce47bfcf6978830c54f10e510039a4"
   dependencies:
     axios "^0.18.0"
     iota.lib.js "^0.4.7"
