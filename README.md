@@ -114,10 +114,3 @@ We use [SemVer](http://semver.org/) for versioning.
 ## Authors
 
 See also the list of [contributors](https://github.com/oysterprotocol/webinterface/graphs/contributors) who participated in this project.
-
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
