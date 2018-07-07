@@ -70,6 +70,8 @@ yarn cypress:publish
 
 ES Lint is configured to run on compile, you will see warnings in the console in regards to code style. Eventually, we will start failing the build when code style warnings appear.
 
+https://docs.cypress.io/guides/references/best-practices.html
+
 ## Deployment
 
 Save the Oyster SSH Key for AWS (found on 1password) in ~/.ssh/oyster.pem
