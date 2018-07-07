@@ -28,7 +28,7 @@ yarn start
 
 Navigate to url
 
-[http://localhost:3000/](http://localhost:3000/)
+[http://localhost:3001/](http://localhost:3001/)
 
 ## Running the tests
 
