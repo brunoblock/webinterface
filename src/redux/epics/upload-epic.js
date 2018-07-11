@@ -1,3 +1,4 @@
+import Datamap from "datamap-generator";
 import { Observable } from "rxjs";
 import { combineEpics } from "redux-observable";
 import _ from "lodash";
@@ -9,7 +10,7 @@ import { UPLOAD_STATUSES } from "config";
 import Iota from "services/iota";
 import Backend from "services/backend";
 import { streamUpload } from "services/oyster-stream";
-import Datamap from "datamap-generator";
+
 import FileProcessor from "utils/file-processor";
 import IndexSelector from "utils/index-selector";
 import {
