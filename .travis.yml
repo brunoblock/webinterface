@@ -24,6 +24,7 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
   - yarn
+  - yarn test:install
   - yarn start -- --silent &    # Silent to run E2E tests
 script:
   - yarn test:coverage          # Unit Tests

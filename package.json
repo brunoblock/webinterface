@@ -62,6 +62,7 @@
     "start:prod": "NODE_ENV=production yarn start --port=3001",
     "build": "cross-env NODE_PATH=src react-scripts build",
     "test": "jest",
+    "test:install": "cypress install",
     "test:watch": "cross-env NODE_PATH=src jest --watch --colors",
     "test:coverage": "cross-env NODE_PATH=src jest --coverage",
     "test:e2e": "cypress open",
