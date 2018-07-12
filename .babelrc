@@ -1,3 +1,53 @@
 {
-  "presets": ["env", "react"]
+  "env": {
+    "production": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "browsers": ["last 2 versions"]
+          },
+          "modules": false
+        }],
+        "react"
+      ],
+      "plugins": [
+        "transform-react-jsx"
+      ]
+    },
+
+    "development": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "browsers": ["last 2 versions"]
+          },
+          "modules": false
+        }],
+        "react"
+      ],
+      "plugins": [
+        "transform-react-jsx",
+        ["module-resolver", {
+          "root": ["/src"],
+          "alias": {
+            "^@component/(.+)": "/Components/\\1.js",
+            "^@widget/(.+)": "/Widgets/\\1.js",
+            "^@scene/(.+)": "/Scenes/\\1.js",
+
+            "themes": "/themes.js",
+            "media-queries": "/media-queries.js",
+
+            "react": "/lib/react.production.min.js",
+            "react-dom": "/lib/react-dom.production.min.js",
+            "react-router": "/lib/react-router-dom.min.js",
+            "styled-components": "/lib/styled-components.min.js",
+            "tinycolor": "/lib/tinycolor-min.js",
+            "filesaver": "/lib/FileSaver.js",
+            "oyster-streamable": "/lib/oyster-streamable.module.min.js"
+          },
+          "cwd": "babelrc"
+        }]
+      ]
+    }
+  }
 }

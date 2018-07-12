@@ -1,60 +1,54 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/lib/integration/react";
-import { ConnectedRouter } from "react-router-redux";
-import { Route } from "react-router";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router'
+import styled from 'styled-components'
 
-import { store, persistor } from "./redux";
-import history from "redux/history";
-import Root from "components/root";
-import Header from "components/shared/header";
-import DownloadForm from "components/download-form";
-import DownloadStarted from "components/download-started";
-import DownloadComplete from "components/download-complete";
-import DownloadUploadHistory from "components/download-upload-history";
-import UploadForm from "components/upload-form";
-import UploadStarted from "components/upload-started";
-import UploadComplete from "components/upload-complete";
-import RetrievingInvoice from "components/retrieving-invoice";
-import PaymentInvoice from "components/payment-invoice";
-import PaymentConfirm from "components/payment-confirm";
-import Playground from "components/playground";
-import registerServiceWorker from "./register-service-worker";
+import Landing
+  from '@scene/Landing'
+import Upload
+  from '@scene/Upload'
+import Download
+  from '@scene/Download'
+import Completed
+  from '@scene/Completed'
 
-import ErrorTracker from "services/error-tracker";
+import Section
+  from '@component/Section'
 
-const App = () => (
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <ConnectedRouter history={history}>
-        <div>
-          <Header />
-          <Route exact path="/" component={Root} />
-          <Route path="/download-form" component={DownloadForm} />
-          <Route path="/download-started" component={DownloadStarted} />
-          <Route path="/download-complete" component={DownloadComplete} />
-          <Route
-            path="/download-upload-history"
-            component={DownloadUploadHistory}
-          />
-          <Route path="/upload-form" component={UploadForm} />
-          <Route path="/upload-started" component={UploadStarted} />
-          <Route path="/upload-complete" component={UploadComplete} />
+import StorageHeader
+  from '@widget/StorageHeader'
 
-          <Route path="/retrieving-invoice" component={RetrievingInvoice} />
 
-          <Route path="/payment-invoice" component={PaymentInvoice} />
-          <Route path="/payment-confirm" component={PaymentConfirm} />
 
-          <Route path="/playground" component={Playground} />
-        </div>
-      </ConnectedRouter>
-    </PersistGate>
-  </Provider>
-);
+const Document = styled.div`
+  & > * {
+    border-left: calc(30vw - 200px) solid transparent
+    border-right: calc(30vw - 200px) solid transparent
+  }
+`
 
-ErrorTracker.context(() => {
-  ReactDOM.render(<App />, document.getElementById("root"));
-  registerServiceWorker();
-});
+class App extends React.Component {
+  render () {
+    return (
+      <Document>
+        <StorageHeader />
+
+        <Section>
+          <Route exact path="/" component={ Landing } />
+          <Route exact path="/upload" component={ Upload } />
+          <Route exact path="/download" component={ Download } />
+          <Route exact path="/file/:handle" component={ Completed } />
+        </Section>
+      </Document>
+    )
+  }
+}
+
+
+
+ReactDOM.render((
+  <Router>
+    <App/>
+  </Router>
+), document.getElementById('app'))
+
