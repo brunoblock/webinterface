@@ -6720,9 +6720,9 @@ raven-for-redux@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/raven-for-redux/-/raven-for-redux-1.3.1.tgz#865f0056ec1706073c1b3a33164640453ed4fed2"
 
-raven-js@^3.24.2:
-  version "3.24.2"
-  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.24.2.tgz#c5cacb363b198812e80cd4c6714e5e478549ebcf"
+raven-js@^3.26.3:
+  version "3.26.3"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.26.3.tgz#0efb49969b5b11ab965f7b0d6da4ca102b763cb0"
 
 raw-body@2.3.2:
   version "2.3.2"
