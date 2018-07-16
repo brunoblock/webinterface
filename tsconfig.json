@@ -7,6 +7,14 @@
     "target": "es5",
     "jsx": "react",
     "moduleResolution": "node",
-    "lib": ["es2015", "dom"]
+    "lib": ["es2015", "dom"],
+    "types": ["node", "rxjs"]
+  },
+  "exclude": [
+    "build/",
+    "node_modules/"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    "errorsAsWarnings": true
   }
 }

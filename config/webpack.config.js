@@ -6,25 +6,19 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
-const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 const InterpolateHtmlPlugin = require("interpolate-html-plugin");
 const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin");
 const eslintFormatter = require("react-dev-utils/eslintFormatter");
 const ModuleScopePlugin = require("react-dev-utils/ModuleScopePlugin");
-const MinifyPlugin = require("babel-minify-webpack-plugin");
 const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
 
-const autoprefixer = require("autoprefixer");
 const path = require("path");
-const webpack = require("webpack");
 const merge = require("webpack-merge");
 const paths = require("./paths");
 const getClientEnvironment = require("./env");
 
 const APP_VERSION = "0.0.1";
 const publicPath = ""; //paths.servedPath;
-const shouldUseRelativeAssetPaths = publicPath === "./";
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== "false";
 const generateStatsFile = process.env.GENERATE_STATS_FILE !== "false";
 const publicUrl = publicPath.slice(0, -1);
 const env = getClientEnvironment(publicUrl);
@@ -69,9 +63,13 @@ const common = {
             loader: require.resolve("babel-loader"),
             options: {
               compact: true,
-              presets: ["env", "react", "es2015", "stage-2", "react-app"],
+              presets: ["env", "react", ["es2015", { "modules": false }], "stage-2", "react-app"],
               plugins: ["transform-class-properties", "transform-object-rest-spread"]
             }
+          },
+          {
+            test: /\.tsx?$/,
+            use: ["babel-loader", "awesome-typescript-loader"]
           },
           {
             test: /\.css$/,
@@ -206,11 +204,14 @@ if (env.stringified["process.env"].NODE_ENV === '"development"') {
       port: 3001,
       open: true
     },
-    devtool: "cheap-module-source-map",
+    devtool: "source-map",
     entry: paths.appIndexJs,
     output: {
       filename: "static/js/[name].bundle.[hash:8].js",
       chunkFilename: "static/js/[name].chunk.[chunkhash:8].js"
+    },
+    resolve: {
+      extensions: [".web.js", ".mjs", ".js", ".json", ".web.jsx", ".jsx", '.tsx', '.ts']
     },
     plugins: [
       new HtmlWebpackPlugin({
