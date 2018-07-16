@@ -202,7 +202,8 @@ if (env.stringified["process.env"].NODE_ENV === '"development"') {
   module.exports = merge(common, {
     devServer: {
       port: 3001,
-      open: true
+      open: true,
+      historyApiFallback: true
     },
     devtool: "source-map",
     entry: paths.appIndexJs,
