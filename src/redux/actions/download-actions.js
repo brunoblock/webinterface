@@ -42,7 +42,7 @@ const ACTIONS = Object.freeze({
   // Stream actions
   streamDownload: ({ handle }) => ({
     type: STREAM_DOWNLOAD,
-    payload: handle
+    payload: { handle }
   }),
   streamDownloadProgress: ({ progress }) => ({
     type: STREAM_DOWNLOAD_PROGRESS,

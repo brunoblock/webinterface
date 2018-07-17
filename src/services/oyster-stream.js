@@ -35,3 +35,16 @@ export const streamUpload = (
   u.on("finish", doneCb);
   u.on("error", errCb);
 };
+
+export const streamDownload = (
+  handle,
+  {},
+  { metaCb, progressCb, doneCb, errCb }
+) => {
+  const d = Stream.Download(handle);
+
+  d.on("meta", metaCb);
+  d.on("download-progress", progressCb);
+  d.on("finish", doneCb);
+  d.on("error", errCb);
+};
