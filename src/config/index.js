@@ -48,10 +48,8 @@ export const UPLOAD_STATUSES = Object.freeze({
 });
 
 export const DOWNLOAD_STATUSES = Object.freeze({
-  STANDBY: "STANDBY",
   PENDING: "PENDING",
-  RECEIVED: "RECEIVED",
-  FAILED: "FAILED"
+  STANDBY: "STANDBY"
 });
 
 export const FILE = Object.freeze({
