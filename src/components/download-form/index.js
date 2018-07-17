@@ -12,7 +12,7 @@ const mapDispatchToProps = dispatch => ({
   initializeDownloadFn: handle =>
     dispatch(
       FEAT_FLAG.STREAMING_DOWNLOAD
-        ? downloadActions.streamDownload(handle)
+        ? downloadActions.streamDownload({ handle })
         : downloadActions.initializeDownloadAction(handle)
     )
 });

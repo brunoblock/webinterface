@@ -41,7 +41,7 @@ export const streamDownload = (
   {},
   { metaCb, progressCb, doneCb, errCb }
 ) => {
-  const d = Stream.Download(handle);
+  const d = new Stream.Download(handle);
 
   d.on("meta", metaCb);
   d.on("download-progress", progressCb);
