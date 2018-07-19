@@ -62,9 +62,7 @@ const common = {
             include: paths.appSrc,
             loader: require.resolve("babel-loader"),
             options: {
-              compact: true,
-              presets: ["env", "react", "es2015", "stage-2", "react-app"],
-              plugins: ["transform-class-properties", "transform-object-rest-spread"]
+              compact: true
             }
           },
           {
