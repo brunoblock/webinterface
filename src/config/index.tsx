@@ -1,4 +1,4 @@
-const IS_DEV = process.env.NODE_ENV === "development";
+export const IS_DEV = process.env.NODE_ENV === "development";
 
 const PROTOCOL = IS_DEV ? "http" : "https";
 
@@ -14,9 +14,9 @@ const BROKERS = IS_DEV
 
 // Hack until we have proper load balancing.
 const randElem = (xs: string) => xs[Math.floor(Math.random() * xs.length)];
-const randBrokers = (brokers:any) => {
+const randBrokers = (brokers: any) => {
   const alpha = randElem(brokers);
-  const remBrokers = brokers.filter((br:any) => br != alpha);
+  const remBrokers = brokers.filter((br: any) => br != alpha);
   const beta = randElem(remBrokers);
 
   return [alpha, beta];
