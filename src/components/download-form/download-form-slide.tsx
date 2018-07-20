@@ -46,7 +46,7 @@ class DownloadFormSlide extends React.Component<
               id="download-handle-input"
               name="handle"
               type="text"
-              ref="handleInput"
+              onChange={this.inputHandler}
               className="handle-text-input"
             />
           </label>
