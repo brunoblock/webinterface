@@ -28,6 +28,7 @@ export const API = Object.freeze({
   BROKER_NODE_A: `${PROTOCOL}://${ALPHA_IP}`,
   BROKER_NODE_B: `${PROTOCOL}://${BETA_IP}`,
   V2_UPLOAD_SESSIONS_PATH: ":3000/api/v2/upload-sessions",
+  V2_STATUS_PATH: ":3000/api/v2/status",
   GAS_PRICE: "https://api.blockcypher.com/v1/eth/main",
   CHUNKS_PER_REQUEST: 10
 });
@@ -61,7 +62,7 @@ export const FILE = Object.freeze({
 });
 
 export const FEAT_FLAG = Object.freeze({
-  STREAMING_UPLOAD: true,
+  STREAMING_UPLOAD: false,
   STREAMING_DOWNLOAD: false
 });
 

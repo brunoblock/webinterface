@@ -43,6 +43,24 @@ const uploadFile = (
     .catch(alertUser);
 };
 
+const checkStatus = host =>
+  new Promise((resolve, reject) => {
+    const host = API.BROKER_NODE_A;
+
+    axiosInstance
+      .get(`${host}${API.V2_STATUS_PATH}`)
+      .then(({ available }) => {
+        if (!available) {
+          alertUser("Oyster is under maintenance. Please try again later.");
+        }
+        resolve(available);
+      })
+      .catch(err => {
+        alertUser(err);
+        reject(err);
+      });
+  });
+
 const createUploadSession = (
   host,
   numChunks,
@@ -177,6 +195,7 @@ const getGasPrice = () => {
 
 export default {
   uploadFile,
+  checkStatus,
   confirmPaid,
   initializeUploadSession,
   getGasPrice
