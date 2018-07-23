@@ -6,14 +6,33 @@ import PrimaryButton from "../shared/primary-button";
 import Spinner from "../shared/spinner";
 
 interface DownloadFormSlideProps {
-    download,
-    status
+  download,
+  status
 }
 
-class DownloadFormSlide extends React.Component<DownloadFormSlideProps> {
+interface DownloadFormState {
+  handle
+}
+
+class DownloadFormSlide extends React.Component<
+  DownloadFormSlideProps,
+  DownloadFormState
+> {
+  constructor(props) {
+    super(props);
+    this.state = { handle: "" };
+
+    // OOP SUCKS!
+    this.inputHandler = this.inputHandler.bind(this);
+  }
+
+  inputHandler(evt) {
+    this.setState({ handle: evt.target.value });
+  }
+
   render() {
-      const { download, status } = this.props;
-      const ICON_DOWNLOAD = require("../../assets/images/icon_download.png");
+    const { download, status } = this.props;
+    const ICON_DOWNLOAD = require("../../assets/images/icon_download.png");
     return (
       <Slide title="Retrieve a File" image={ICON_DOWNLOAD}>
         <p className="handle-instructions">
@@ -27,7 +46,7 @@ class DownloadFormSlide extends React.Component<DownloadFormSlideProps> {
               id="download-handle-input"
               name="handle"
               type="text"
-              ref="handleInput"
+              onChange={this.inputHandler}
               className="handle-text-input"
             />
           </label>
@@ -37,7 +56,7 @@ class DownloadFormSlide extends React.Component<DownloadFormSlideProps> {
             id="download-btn"
             disabled={status === DOWNLOAD_STATUSES.PENDING}
             onClick={() => {
-              const handle = this.refs.handleInput.value;
+              const handle = this.state.handle;
               if (!handle) {
                 alert("Please input a handle.");
               } else {
