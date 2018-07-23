@@ -6761,7 +6761,7 @@ output-file-sync@^1.1.2:
 
 "oyster-streamable@git+https://github.com/oysterprotocol/oyster-streamable.git":
   version "0.0.1"
-  resolved "git+https://github.com/oysterprotocol/oyster-streamable.git#8bca7613da292311e01bd0344c95e460c92f8828"
+  resolved "git+https://github.com/oysterprotocol/oyster-streamable.git#c1ba18f44ea3028ce4365bb001e11e99585dad32"
   dependencies:
     axios "^0.18.0"
     datamap-generator "git+https://github.com/oysterprotocol/datamap-generator.git"
