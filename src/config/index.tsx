@@ -54,7 +54,7 @@ export const DOWNLOAD_STATUSES = Object.freeze({
 });
 
 export const FILE = Object.freeze({
-  MAX_FILE_SIZE: 5 * 1000 * 1000, // 25mb
+  MAX_FILE_SIZE: 100 * 1000 * 1000, // 100mb
   CHUNK_TYPES: {
     METADATA: "METADATA",
     FILE_CONTENTS: "FILE_CONTENTS"
@@ -62,8 +62,8 @@ export const FILE = Object.freeze({
 });
 
 export const FEAT_FLAG = Object.freeze({
-  STREAMING_UPLOAD: false,
-  STREAMING_DOWNLOAD: false
+  STREAMING_UPLOAD: true,
+  STREAMING_DOWNLOAD: true
 });
 
 export const INCLUDE_TREASURE_OFFSETS = true;
