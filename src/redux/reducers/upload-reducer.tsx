@@ -1,5 +1,5 @@
 import uploadActions from "../actions/upload-actions";
-import { API, UPLOAD_STATUSES, IOTA_API } from "../../config";
+import { API, UPLOAD_STATUSES } from "../../config";
 
 const initState = {
   alphaBroker: API.BROKER_NODE_A,
@@ -61,7 +61,7 @@ const uploadReducer = (state = initState, action) => {
         uploadProgress,
         indexes: updatedIndexes
       } = action.payload;
-      const updatedHistory = state.history.map(f => {
+      const updatedHistory = state.history.map((f: any) => {
         return f.handle === fileHandle ? { ...f, uploadProgress } : f;
       });
       const updated = {
@@ -86,7 +86,7 @@ const uploadReducer = (state = initState, action) => {
 
     case uploadActions.UPLOAD_SUCCESS:
       const succeededHandle = action.payload;
-      const newHistory = state.history.map(f => {
+      const newHistory = state.history.map((f:any) => {
         return f.handle === succeededHandle
           ? { ...f, status: UPLOAD_STATUSES.SENT }
           : f;
@@ -98,7 +98,7 @@ const uploadReducer = (state = initState, action) => {
 
     case uploadActions.UPLOAD_FAILURE:
       const failedHandle = action.payload;
-      const h = state.history.map(f => {
+      const h = state.history.map((f:any) => {
         return f.handle === failedHandle
           ? { ...f, status: UPLOAD_STATUSES.FAILED }
           : f;
