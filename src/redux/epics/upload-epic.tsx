@@ -114,7 +114,7 @@ const initializeSession = (action$, store) => {
         genesisHash,
         storageLengthInYears,
         host
-      }) => {
+      }: any) => {
         return uploadActions.pollPaymentStatus({
           host,
           alphaSessionId,
