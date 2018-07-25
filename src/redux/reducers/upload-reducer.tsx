@@ -62,7 +62,11 @@ const uploadReducer = (state = initState, action) => {
         indexes: updatedIndexes
       } = action.payload;
       const updatedHistory = state.history.map((f: any) => {
-        return f.handle === fileHandle ? { ...f, uploadProgress } : f;
+          if (f.handle !== fileHandle) return f;
+
+          // Make sure progress doesn't go backwards.
+          const prog = Math.max(f.uploadProgress, uploadProgress);
+          return { ...f, uploadProgress: prog };
       });
       const updated = {
         ...state.indexes,

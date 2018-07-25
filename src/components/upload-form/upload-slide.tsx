@@ -31,7 +31,8 @@ interface UploadSlideState {
     fileName,
     fileSize,
     storageCost,
-    humanFileSize
+    humanFileSize,
+    isInitializing: boolean // TODO: Enum this.
 }
 
 class UploadSlide extends Component<UploadSlideProps,UploadSlideState> {
@@ -42,7 +43,8 @@ class UploadSlide extends Component<UploadSlideProps,UploadSlideState> {
       fileName: DEFAULT_FILE_INPUT_TEXT,
       fileSize: DEFAULT_FILE_INPUT_SIZE,
       storageCost: DEFAULT_FILE_INPUT_COST,
-      humanFileSize: DEFAULT_HUMAN_FILE_SIZE
+      humanFileSize: DEFAULT_HUMAN_FILE_SIZE,
+      isInitializing: false
     };
   }
 
@@ -237,10 +239,14 @@ class UploadSlide extends Component<UploadSlideProps,UploadSlideState> {
                 streamUploadFn(file, retentionYears, brokers);
               } else {
                 upload(file, retentionYears);
+                this.setState({ isInitializing: true });
               }
             }}
           >
             Start Upload
+            {this.state.isInitializing
+                ? "Initializing Upload..."
+                : "Start Upload"}
           </PrimaryButton>
         </div>
         <aside className="disclaimer">
