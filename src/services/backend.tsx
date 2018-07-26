@@ -43,7 +43,7 @@ const uploadFile = (
     .catch(alertUser);
 };
 
-const checkStatus = host =>
+const checkStatus = () =>
   new Promise((resolve, reject) => {
     // TODO: Quick fix to get this deployed ASAP and pass Travis.
     // This should be removed later
@@ -52,7 +52,7 @@ const checkStatus = host =>
     const host = API.BROKER_NODE_A;
     axiosInstance
       .get(`${host}${API.V2_STATUS_PATH}`)
-      .then(({ data: { available } }) => {
+      .then(({ data: { available } }: any) => {
         if (!available) {
           alertUser("Oyster is under maintenance. Please try again later.");
         }
