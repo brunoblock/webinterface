@@ -6,6 +6,8 @@ const POLLING_NODE = IS_DEV
   ? ["18.191.77.193"] // Travis broker
   : ["poll.oysternodes.com"];
 
+const OLD_TANGLE_NODE = "download.oysternodes.com";
+
 const BROKERS = IS_DEV
   ? ["18.222.56.121", "18.191.77.193"] // Travis brokers
   : //["18.188.64.13", "18.188.230.212"] // Rebel brokers
@@ -34,9 +36,9 @@ export const API = Object.freeze({
 });
 
 export const IOTA_API = Object.freeze({
-  PROVIDER_A: `${PROTOCOL}://${POLLING_NODE}:14265`,
-  PROVIDER_B: `${PROTOCOL}://${ALPHA_IP}:14265`,
-  PROVIDER_C: `${PROTOCOL}://${BETA_IP}:14265`,
+  PROVIDER_A: `${PROTOCOL}://${OLD_TANGLE_NODE}:14265`,
+  PROVIDER_B: `${PROTOCOL}://${POLLING_NODE}:14265`,
+  PROVIDER_C: `${PROTOCOL}://${ALPHA_IP}:14265`,
   ADDRESS_LENGTH: 81,
   MESSAGE_LENGTH: 2187,
   BUNDLE_SIZE: 100
