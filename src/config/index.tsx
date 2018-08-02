@@ -64,7 +64,6 @@ export const FILE = Object.freeze({
 });
 
 export const FEAT_FLAG = Object.freeze({
-  STREAMING_UPLOAD: true,
   STREAMING_DOWNLOAD: true
 });
 
