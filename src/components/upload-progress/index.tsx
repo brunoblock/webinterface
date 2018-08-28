@@ -8,6 +8,7 @@ import UploadProgressSlide from "./upload-progress-slide";
 import { getSortedHistoryDesc } from "../../redux/selectors/upload-history-selector";
 import uploadActions from "../../redux/actions/upload-actions";
 
+
 const mapStateToProps = state => ({
   upload: state.upload,
   uploadHistory: state.upload.history,
@@ -51,6 +52,15 @@ class UploadProgress extends React.Component<
         },
         errCb: (res) => {
           console.log('Error Callback: ',res)
+
+            /**
+             * Temp code until brokers metadata upload timing is changed
+             */
+            setTimeout(() => {
+                window.location.reload();
+                alert("File not ready, attempting to refresh.")
+            }, 5000)
+
         }
       })
     }
