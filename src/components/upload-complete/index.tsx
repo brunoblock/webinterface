@@ -6,6 +6,7 @@ import UploadCompleteSlide from "./upload-complete-slide";
 const mapStateToProps = state => ({
   handle: state.upload.handle
 });
+
 const mapDispatchToProps = dispatch => ({});
 
 const UploadComplete = ({handle}) => {
