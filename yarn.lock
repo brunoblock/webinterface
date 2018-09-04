@@ -6772,9 +6772,9 @@ output-file-sync@^1.1.2:
     mkdirp "^0.5.1"
     object-assign "^4.1.0"
 
-"oyster-streamable@git+https://github.com/oysterprotocol/oyster-streamable.git#poll-meta":
+oyster-streamable@^2.0.3:
   version "2.0.3"
-  resolved "git+https://github.com/oysterprotocol/oyster-streamable.git#66e3b2d319bed458aed1afd15509bcba134d38ed"
+  resolved "https://registry.yarnpkg.com/oyster-streamable/-/oyster-streamable-2.0.3.tgz#06f6d335c7fccc6d7d8c25f7e4d3a6794d1f4a76"
   dependencies:
     axios "^0.18.0"
     datamap-generator "^1.0.8"
