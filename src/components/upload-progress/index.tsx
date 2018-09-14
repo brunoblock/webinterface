@@ -3,28 +3,14 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 
 import UploadProgressSlide from "./upload-progress-slide";
-import { getSortedHistoryDesc } from "../../redux/selectors/upload-history-selector";
-import uploadActions from "../../redux/actions/upload-actions";
 
 const mapStateToProps = state => ({
-  upload: state.upload,
-  uploadHistory: state.upload.history,
-  historyDesc: getSortedHistoryDesc(state)
+  upload: state.upload
 });
-const mapDispatchToProps = dispatch => ({
-  streamUploadProgressFn: progress =>
-    dispatch(uploadActions.streamUploadProgress({ progress })),
-  streamUploadSuccessFn: handle =>
-    dispatch(uploadActions.streamUploadSuccess({ handle }))
-});
+const mapDispatchToProps = dispatch => ({});
 
 interface UploadProgressProps {
   upload: any;
-  uploadHistory: any;
-  historyDesc: any[];
-  location: any;
-  streamUploadProgressFn: any;
-  streamUploadSuccessFn: any;
 }
 
 interface UploadProgressState {}
