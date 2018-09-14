@@ -1,5 +1,6 @@
 import { Observable } from "rxjs";
 import { combineEpics } from "redux-observable";
+import queryString from "query-string";
 
 import uploadActions from "../actions/upload-actions";
 import { execObsverableIfBackendAvailable } from "./utils";
@@ -59,21 +60,39 @@ const streamUploadProgressEpic = action$ =>
   action$.ofType(uploadActions.CHUNKS_DELIVERED).mergeMap(action => {
     const { handle } = action.payload;
 
-    return Observable.create(o => {
-      streamUploadProgress(handle, {
-        uploadProgressCb: ({ progress }) => {
-          o.next(uploadActions.streamUploadProgress({ progress }));
-        },
-        doneCb: ({ handle }) => {
-          o.next(uploadActions.streamUploadSuccess({ handle }));
-          o.complete();
-        },
-        errCb: err => {
-          o.next(uploadActions.streamUploadError({ handle, err }));
-          o.complete();
-        }
-      });
-    });
+    return streamUploadProgressFn(handle);
   });
 
-export default combineEpics(streamUploadEpic, streamUploadProgressEpic);
+const streamUploadProgressRouteEpic = action$ =>
+  action$
+    .ofType("@@router/LOCATION_CHANGE")
+    .filter(action => action.payload.pathname === "/upload-progress")
+    .mergeMap(action => {
+      const { handle } = queryString.parse(action.payload.search);
+
+      return streamUploadProgressFn(handle);
+    });
+
+const streamUploadProgressFn = handle => {
+  return Observable.create(o => {
+    streamUploadProgress(handle, {
+      uploadProgressCb: ({ progress }) => {
+        o.next(uploadActions.streamUploadProgress({ progress }));
+      },
+      doneCb: ({ handle }) => {
+        o.next(uploadActions.streamUploadSuccess({ handle }));
+        o.complete();
+      },
+      errCb: err => {
+        o.next(uploadActions.streamUploadError({ handle, err }));
+        o.complete();
+      }
+    });
+  });
+};
+
+export default combineEpics(
+  streamUploadEpic,
+  streamUploadProgressEpic,
+  streamUploadProgressRouteEpic
+);
