@@ -1,13 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import queryString from "query-string";
-import { streamUploadProgress } from "../../services/oyster-stream";
 
 import UploadProgressSlide from "./upload-progress-slide";
 import { getSortedHistoryDesc } from "../../redux/selectors/upload-history-selector";
 import uploadActions from "../../redux/actions/upload-actions";
-
 
 const mapStateToProps = state => ({
   upload: state.upload,
@@ -15,10 +12,10 @@ const mapStateToProps = state => ({
   historyDesc: getSortedHistoryDesc(state)
 });
 const mapDispatchToProps = dispatch => ({
-    streamUploadProgressFn: progress =>
-        dispatch(uploadActions.streamUploadProgress({progress})),
-    streamUploadSuccessFn: handle =>
-        dispatch(uploadActions.streamUploadSuccess({handle}))
+  streamUploadProgressFn: progress =>
+    dispatch(uploadActions.streamUploadProgress({ progress })),
+  streamUploadSuccessFn: handle =>
+    dispatch(uploadActions.streamUploadSuccess({ handle }))
 });
 
 interface UploadProgressProps {
@@ -34,38 +31,8 @@ interface UploadProgressState {}
 
 class UploadProgress extends React.Component<
   UploadProgressProps,
-  UploadProgressState> {
-
-  componentDidMount() {
-    const { location, streamUploadProgressFn, streamUploadSuccessFn } = this.props;
-    const query = queryString.parse(location.search);
-
-    if (query.handle) {
-      streamUploadProgress(query.handle, {
-        uploadProgressCb: (res) => {
-            const progress = res.progress;
-            streamUploadProgressFn(progress)
-        },
-        doneCb: (res) => {
-            const handle = res.handle;
-            streamUploadSuccessFn(handle)
-        },
-        errCb: (res) => {
-          console.log('Error Callback: ',res)
-
-            /**
-             * Temp code until brokers metadata upload timing is changed
-             */
-            setTimeout(() => {
-                window.location.reload();
-                alert("File not ready, attempting to refresh.")
-            }, 5000)
-
-        }
-      })
-    }
-  }
-
+  UploadProgressState
+> {
   render() {
     const { upload } = this.props;
     const uploadProgress = upload.uploadProgress;
