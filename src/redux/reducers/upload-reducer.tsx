@@ -63,9 +63,6 @@ const uploadReducer = (state = initState, action) => {
       const { progress } = action.payload;
       return { ...state, uploadProgress: progress };
 
-    // case uploadActions.UPLOAD:
-    // case uploadActions.UPLOAD_ERROR:
-
     case uploadActions.UPLOAD_SUCCESS: {
       const { handle } = action.payload;
       return { ...state, handle: handle };

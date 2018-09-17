@@ -77,18 +77,4 @@ const streamUploadProgressEpic = action$ =>
     });
   });
 
-// const streamUploadProgressRouteEpic = action$ =>
-//   action$
-//     .ofType("@@router/LOCATION_CHANGE")
-//     .filter(action => action.payload.pathname === "/upload-progress")
-//     .map(action => {
-//       const { handle } = queryString.parse(action.payload.search);
-
-//       return uploadActions.streamChunksDelivered({ handle });
-//     });
-
-export default combineEpics(
-  streamUploadEpic,
-  streamUploadProgressEpic
-  // streamUploadProgressRouteEpic
-);
+export default combineEpics(streamUploadEpic, streamUploadProgressEpic);
