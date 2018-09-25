@@ -46,6 +46,12 @@ const goToErrorPage = (action$, store) => {
     .map(() => push("/error-page"));
 };
 
+const goToBrokersDownPage = (action$, store) => {
+  return action$
+    .ofType(navigationActions.BROKERS_DOWN)
+    .map(() => push("/brokers-down"));
+};
+
 export default combineEpics(
   goToDownloadForm,
   goToUploadForm,
@@ -53,5 +59,6 @@ export default combineEpics(
   goToUploadCompleteStream,
   goToPaymentInvoiceStream,
   goToPaymentConfirmationStream,
-  goToErrorPage
+  goToErrorPage,
+  goToBrokersDownPage
 );

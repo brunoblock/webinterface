@@ -3,7 +3,7 @@ import { combineEpics } from "redux-observable";
 // import queryString from "query-string";
 
 import uploadActions from "../actions/upload-actions";
-import { execObsverableIfBackendAvailable } from "./utils";
+import { execObservableIfBackendAvailable } from "./utils";
 import {
   streamUpload,
   streamUploadProgress
@@ -21,7 +21,7 @@ const streamUploadEpic = action$ =>
 
     const params = { alpha, beta, retentionYears };
 
-    return execObsverableIfBackendAvailable(
+    return execObservableIfBackendAvailable(
       [API.BROKER_NODE_A, API.BROKER_NODE_B],
       () =>
         Observable.create(o => {

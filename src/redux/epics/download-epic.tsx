@@ -3,7 +3,7 @@ import { combineEpics } from "redux-observable";
 import FileSaver from "file-saver";
 
 import downloadActions from "../actions/download-actions";
-import { execObsverableIfBackendAvailable } from "./utils";
+import { execObservableIfBackendAvailable } from "./utils";
 import { streamDownload } from "../../services/oyster-stream";
 import { alertUser } from "../../services/error-tracker";
 import { API } from "../../config";
@@ -14,7 +14,7 @@ const streamDownloadEpic = action$ => {
     const params = {};
 
     // TODO: Pass in hosts instead of hardcoding here.
-    return execObsverableIfBackendAvailable([API.BROKER_NODE_A], () =>
+    return execObservableIfBackendAvailable([API.BROKER_NODE_A], () =>
       Observable.create(o => {
         streamDownload(handle, params, {
           metaCb: () => {}, // no-op
