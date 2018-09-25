@@ -1,7 +1,7 @@
 import React from "react";
 import { Line } from "rc-progress";
 
-import { UPLOAD_STATE } from "redux/reducers/upload-reducer";
+import { UPLOAD_STATE } from "../../redux/reducers/upload-reducer";
 import Slide from "../shared/slide";
 import Spinner from "../shared/spinner";
 
