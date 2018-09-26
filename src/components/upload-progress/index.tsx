@@ -21,14 +21,9 @@ class UploadProgress extends React.Component<
 > {
   render() {
     const { upload } = this.props;
-    const { uploadProgress, uploadState } = upload;
+    const { uploadProgress } = upload;
 
-    return (
-      <UploadProgressSlide
-        uploadProgress={uploadProgress}
-        uploadState={uploadState}
-      />
-    );
+    return <UploadProgressSlide uploadProgress={uploadProgress} />;
   }
 }
 export default withRouter(
