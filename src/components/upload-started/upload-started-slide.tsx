@@ -17,7 +17,7 @@ const UploadStartedSlide = ({ chunksProgress }) => (
     </p>
     <div>
       <ProgressBar progress={chunksProgress} />
-      <strong>{Math.floor(Math.min(100, chunksProgress))}%</strong>
+      <p>{Math.floor(Math.min(100, chunksProgress))}%</p>
     </div>
   </Slide>
 );

@@ -8,6 +8,7 @@ const ProgressBorder = styled.div`
   border-radius: 6px;
   background-color: transparent;
   height: 48px;
+  max-width: 450px;
 `;
 
 const ProgressBar = ({ progress }) => (
