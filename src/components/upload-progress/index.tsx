@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 
-import UploadProgressSlide from "./upload-started-slide";
+import UploadProgressSlide from "./upload-progress-slide";
 
 const mapStateToProps = state => ({
   upload: state.upload

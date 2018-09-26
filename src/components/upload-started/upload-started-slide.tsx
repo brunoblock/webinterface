@@ -1,48 +1,23 @@
 import React from "react";
-import { Line } from "rc-progress";
 
-import { UPLOAD_STATE } from "../../redux/reducers/upload-reducer";
+import ProgressBar from "../shared/progress-bar";
 import Slide from "../shared/slide";
 import Spinner from "../shared/spinner";
 
 const ICON_UPLOAD = require("../../assets/images/icon_upload.png");
 
-const UploadStartedSlide = ({ uploadProgress, uploadState }) => (
+const UploadStartedSlide = ({ chunksProgress }) => (
   <Slide title="Upload Started" image={ICON_UPLOAD}>
-    {uploadState === UPLOAD_STATE.COMPLETE ? (
-      <div>
-        <strong className="transaction-confirmed-instructions">
-          File has been uploaded. You can check on the progress here:
-        </strong>
-        <br />
-        <a href={window.location.href}>{window.location.href}</a>
-      </div>
-    ) : (
-      <strong className="transaction-confirmed-instructions">
-        Please do not close this tab while your file is being uploaded.
-      </strong>
-    )}
-
-    <br />
-    <br />
     <p className="transaction-confirmed-instructions">
-      Transaction Confirmed. Your file is now being uploaded to the Tangle.
-      <Spinner isActive={uploadProgress === 0} className="download-spinner" />
+      File is being broken into chunks and each chunk encrypted.
+      <Spinner isActive={chunksProgress === 0} className="download-spinner" />
+    </p>
+    <p className="transaction-confirmed-instructions">
+      Please do not leave this tab or close your browser.
     </p>
     <div>
-      <Line
-        percent={uploadProgress}
-        trailWidth="4"
-        strokeWidth="4"
-        strokeColor="#4B80FC"
-        trailColor="#afcbfe"
-        strokeLinecap="square"
-        className="upload-progress-bar"
-      />
-      <p>
-        {Math.floor(Math.min(100, uploadProgress))}% - File is being broken into
-        chunks and each chunk encrypted…
-      </p>
+      <ProgressBar progress={chunksProgress} />
+      <strong>{Math.floor(Math.min(100, chunksProgress))}%</strong>
     </div>
   </Slide>
 );

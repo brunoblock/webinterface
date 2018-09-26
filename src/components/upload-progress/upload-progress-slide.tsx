@@ -8,7 +8,7 @@ import Spinner from "../shared/spinner";
 const ICON_UPLOAD = require("../../assets/images/icon_upload.png");
 
 const UploadProgressSlide = ({ uploadProgress, uploadState }) => (
-  <Slide title="Upload Started" image={ICON_UPLOAD}>
+  <Slide title="Upload Progress" image={ICON_UPLOAD}>
     {uploadState === UPLOAD_STATE.COMPLETE ? (
       <div>
         <strong className="transaction-confirmed-instructions">
