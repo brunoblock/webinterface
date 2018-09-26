@@ -13,24 +13,30 @@ const streamDownloadEpic = action$ => {
     const { handle } = action.payload;
     const params = {};
 
+    const downloadObservable = Observable.create(o => {
+      streamDownload(handle, params, {
+        metaCb: () => {}, // no-op
+        progressCb: () => {}, // no-op
+        doneCb: ({ metadata: { fileName }, result }) => {
+          FileSaver.saveAs(result, fileName);
+          o.next(downloadActions.streamDownloadSuccess());
+          o.complete();
+        },
+        errCb: err => {
+          alertUser(err);
+          o.next(downloadActions.streamDownloadError({ err }));
+          o.complete();
+        }
+      });
+    });
+
     // TODO: Pass in hosts instead of hardcoding here.
-    return execObservableIfBackendAvailable([API.BROKER_NODE_A], () =>
-      Observable.create(o => {
-        streamDownload(handle, params, {
-          metaCb: () => {}, // no-op
-          progressCb: () => {}, // no-op
-          doneCb: ({ metadata: { fileName }, result }) => {
-            FileSaver.saveAs(result, fileName);
-            o.next(downloadActions.streamDownloadSuccess());
-            o.complete();
-          },
-          errCb: err => {
-            alertUser(err);
-            o.next(downloadActions.streamDownloadError({ err }));
-            o.complete();
-          }
-        });
-      })
+    return execObservableIfBackendAvailable(
+      [API.BROKER_NODE_A],
+      () => downloadObservable,
+      // TODO:  downloads can still work if the brokers are down, but we should
+      // deal with the situation where the tangle is down also
+      () => downloadObservable
     );
   });
 };

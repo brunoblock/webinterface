@@ -10,6 +10,7 @@ import {
 } from "../../services/oyster-stream";
 import { alertUser } from "../../services/error-tracker";
 import { API } from "../../config";
+import navigationActions from "../actions/navigation-actions";
 
 const streamUploadEpic = action$ =>
   action$.ofType(uploadActions.UPLOAD).mergeMap(action => {
@@ -52,6 +53,10 @@ const streamUploadEpic = action$ =>
               o.complete();
             }
           });
+        }),
+      () =>
+        Observable.create(o => {
+          o.next(navigationActions.brokersDownPageAction());
         })
     );
   });

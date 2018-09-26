@@ -1,8 +1,11 @@
 import { combineEpics } from "redux-observable";
 import { push } from "react-router-redux";
+import { Observable } from "rxjs/Rx";
 
+import { API } from "../../config";
 import uploadActions from "../actions/upload-actions";
 import navigationActions from "../actions/navigation-actions";
+import { execObservableIfBackendAvailable } from "./utils";
 
 const goToDownloadForm = (action$, store) => {
   return action$
@@ -11,9 +14,19 @@ const goToDownloadForm = (action$, store) => {
 };
 
 const goToUploadForm = (action$, store) => {
-  return action$
-    .ofType(navigationActions.VISIT_UPLOAD_FORM)
-    .map(() => push("/upload-form"));
+  return action$.ofType(navigationActions.VISIT_UPLOAD_FORM).mergeMap(() => {
+    return execObservableIfBackendAvailable(
+      [API.BROKER_NODE_A, API.BROKER_NODE_B],
+      () =>
+        Observable.create(o => {
+          o.next(push("/upload-form"));
+        }),
+      () =>
+        Observable.create(o => {
+          o.next(push("/brokers-down"));
+        })
+    );
+  });
 };
 
 const goToUploadStartedStream = (action$, store) => {
