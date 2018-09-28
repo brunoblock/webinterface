@@ -62,7 +62,12 @@ const uploadReducer = (state = initState, action) => {
 
     case uploadActions.CHUNKS_DELIVERED: {
       const { handle } = action.payload;
-      return { ...state, handle, uploadState: UPLOAD_STATE.COMPLETE };
+      return {
+        ...state,
+        handle,
+        chunksProgress: 100,
+        uploadState: UPLOAD_STATE.COMPLETE
+      };
     }
 
     case uploadActions.UPLOAD_PROGRESS: {
@@ -72,7 +77,7 @@ const uploadReducer = (state = initState, action) => {
 
     case uploadActions.UPLOAD_SUCCESS: {
       const { handle } = action.payload;
-      return { ...state, handle: handle };
+      return { ...state, handle: handle, uploadProgress: 100 };
     }
 
     default:
