@@ -4,7 +4,7 @@ import styled from "styled-components";
 const ProgressBorder = styled.div`
   margin-top: 15px;
   margin-bottom: 15px;
-  border: solid 1px #a5cdfe;
+  border: solid 1px #2184fc;
   border-radius: 6px;
   background-color: transparent;
   height: 48px;
