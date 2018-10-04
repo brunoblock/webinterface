@@ -7,6 +7,8 @@ import uploadActions from "../actions/upload-actions";
 import navigationActions from "../actions/navigation-actions";
 import { execObservableIfBackendAvailable } from "./utils";
 
+const LOCATION_CHANGE_ACTION = "@@router/LOCATION_CHANGE";
+
 const goToDownloadForm = (action$, store) => {
   return action$
     .ofType(navigationActions.VISIT_DOWNLOAD_FORM)
@@ -71,6 +73,19 @@ const goToBrokersDownPage = (action$, store) => {
     .map(() => push("/brokers-down"));
 };
 
+// .filter(({ payload: { pathname } }) => pathname === "/upload-progress")
+const uploadProgressListener = (action$, store) => {
+  return action$
+    .ofType(LOCATION_CHANGE_ACTION)
+    .filter(({ payload: { pathname } }) => pathname === "/upload-progress")
+    .mergeMap(({ payload: { hash } }) => {
+      console.log("HELLO");
+      console.log(hash);
+
+      return Observable.empty();
+    });
+};
+
 export default combineEpics(
   goToDownloadForm,
   goToUploadForm,
@@ -80,5 +95,6 @@ export default combineEpics(
   goToPaymentInvoiceStream,
   goToPaymentConfirmationStream,
   goToErrorPage,
-  goToBrokersDownPage
+  goToBrokersDownPage,
+  uploadProgressListener
 );
