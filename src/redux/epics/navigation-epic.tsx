@@ -78,7 +78,7 @@ const uploadProgressListener = (action$, store) => {
   return action$
     .ofType(LOCATION_CHANGE_ACTION)
     .filter(({ payload: { pathname } }) => pathname === "/upload-progress")
-    .mergeMap(({ payload: { hash } }) => {
+    .switchMap(({ payload: { hash } }) => {
       console.log("HELLO");
       console.log(hash);
 
