@@ -1,6 +1,7 @@
 import { combineEpics } from "redux-observable";
 import { push } from "react-router-redux";
 import { Observable } from "rxjs/Rx";
+import queryString from "query-string";
 
 import { API } from "../../config";
 import uploadActions from "../actions/upload-actions";
@@ -79,8 +80,11 @@ const uploadProgressListener = (action$, store) => {
     .ofType(LOCATION_CHANGE_ACTION)
     .filter(({ payload: { pathname } }) => pathname === "/upload-progress")
     .switchMap(({ payload: { hash } }) => {
+      const params = queryString.parse(hash);
+
       console.log("HELLO");
       console.log(hash);
+      console.log(params);
 
       return Observable.empty();
     });
