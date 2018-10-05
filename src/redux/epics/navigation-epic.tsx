@@ -75,7 +75,6 @@ const goToBrokersDownPage = (action$, store) => {
     .map(() => push("/brokers-down"));
 };
 
-// .filter(({ payload: { pathname } }) => pathname === "/upload-progress")
 const uploadProgressListener = (action$, store) => {
   return action$
     .ofType(LOCATION_CHANGE_ACTION)
