@@ -15,11 +15,11 @@ const UploadCompleteSlide = ({ handle }) => (
     <div>
       <p>
         <span className="handle-header">Oyster Handle:</span>
-        <ClipboardBtn text={handle}>Copy to clipboard</ClipboardBtn>
       </p>
       <p id="oyster-handle" className="oyster-handle">
         {handle}
       </p>
+      <ClipboardBtn text={handle}>Copy to clipboard</ClipboardBtn>
     </div>
   </Slide>
 );
