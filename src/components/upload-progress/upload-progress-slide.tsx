@@ -13,7 +13,7 @@ const UploadProgressSlide = ({ uploadProgress }) => (
       <Spinner isActive={uploadProgress === 0} className="download-spinner" />
     </p>
     <p>
-      You can come and check your progress at{" "}
+      You can come back and check your progress at{" "}
       <a href={window.location.href}>here</a>
     </p>
     <div>
