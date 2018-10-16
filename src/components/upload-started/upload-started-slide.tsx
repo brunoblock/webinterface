@@ -16,7 +16,7 @@ const UploadStartedSlide = ({ chunksProgress }) => {
     <Slide title="Upload Started" image={ICON_UPLOAD}>
       <p className="transaction-confirmed-instructions">
         {description}
-        <Spinner isActive={chunksProgress === 0} className="download-spinner" />
+        <Spinner isActive={true} className="download-spinner" />
       </p>
       <p className="transaction-confirmed-instructions">
         Please do not close this tab.
