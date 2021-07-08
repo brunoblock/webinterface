@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styled from "styled-components";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
 
@@ -6,6 +7,8 @@ import { API, FILE } from "../../config";
 import Slide from "../shared/slide";
 import Button from "../shared/button";
 import Spinner from "../shared/spinner";
+
+import { Flexbox } from "../generic";
 
 const ICON_UPLOAD = require("../../assets/images/icon_upload.png");
 const ICON_FOLDER = require("../../assets/images/icon_folder.png");
@@ -16,6 +19,62 @@ const DEFAULT_FILE_INPUT_COST = 0;
 const DEFAULT_HUMAN_FILE_SIZE = 0;
 const CHUNKS_IN_SECTOR = 1000000;
 const STORAGE_PEG = 64;
+
+const Paragraph = styled.p`
+  color: #778291;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 26px;
+`;
+
+const SpanYearsRetantion = styled.span`
+  margin-left: 10px;
+`;
+
+const StorageFees = styled.h3`
+  color: #778291;
+  font-weight: 500;
+  font-size: 18px;
+`;
+
+const SpanStorageFees = styled.span`
+  color: #0068ea;
+`;
+
+const Disclaimer = styled.aside`
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding-top: 20px;
+`;
+
+const RetentionWrapperForm = styled.form`
+  display: flex;
+`;
+
+const SelectBox = styled.select`
+  border: 1px solid #ecedef;
+  width: 44px;
+  font-size: 16px;
+  padding: 1px 0;
+  line-height: 26px;
+  margin: 0 auto;
+  text-align: center;
+  padding-left: 15px;
+  border-radius: 5px;
+  font-weight: 500;
+`;
+
+const FlexContainer = styled.div`
+  flex: 1;
+  padding-right: 10px;
+`;
+
+
+const FlexboxStyled = styled(Flexbox)`
+  marginTop="20px"
+`;
 
 interface UploadSlideProps {
   alphaBroker;
@@ -34,6 +93,7 @@ interface UploadSlideState {
   humanFileSize;
   isInitializing: boolean; // TODO: Enum this.
 }
+
 
 class UploadSlide extends Component<UploadSlideProps, UploadSlideState> {
   constructor(props) {
@@ -60,8 +120,8 @@ class UploadSlide extends Component<UploadSlideProps, UploadSlideState> {
     } = this.props;
     return (
       <Slide title="Upload a File" image={ICON_UPLOAD}>
-        <div className="broker-select-wrapper">
-          <div className="upload-column">
+        <Flexbox>
+          <FlexContainer>
             <label htmlFor="broker-node-1">Broker Node 1</label>
             <Select
               name="broker-node-1"
@@ -81,8 +141,8 @@ class UploadSlide extends Component<UploadSlideProps, UploadSlideState> {
                 }
               ]}
             />
-          </div>
-          <div className="upload-column">
+          </FlexContainer>
+          <FlexContainer>
             <label htmlFor="broker-node-2">Broker Node 2</label>
             <Select
               name="broker-node-2"
@@ -102,12 +162,12 @@ class UploadSlide extends Component<UploadSlideProps, UploadSlideState> {
                 }
               ]}
             />
-          </div>
-        </div>
-        <div className="upload-section">
-          <p>Select Retention File</p>
-          <form className="retention-wrapper">
-            <div className="upload-column">
+          </FlexContainer>
+        </Flexbox>
+        <FlexboxStyled>
+          <Paragraph>Select Retention File</Paragraph>
+          <RetentionWrapperForm>
+            <FlexContainer>
               <input
                 className="retention-slider"
                 type="range"
@@ -126,10 +186,9 @@ class UploadSlide extends Component<UploadSlideProps, UploadSlideState> {
                   });
                 }}
               />
-            </div>
-            <div className="upload-column">
-              <select
-                id="sel"
+            </FlexContainer>
+            <FlexContainer>
+              <SelectBox
                 value={retentionYears}
                 disabled
                 onChange={event => {
@@ -154,14 +213,14 @@ class UploadSlide extends Component<UploadSlideProps, UploadSlideState> {
                 <option>8</option>
                 <option>9</option>
                 <option>10</option>
-              </select>
-              <span className="years-retention">Years of retention</span>
-            </div>
-          </form>
-        </div>
-        <div className="file-select-wrapper upload-section">
-          <div className="upload-column">
-            <p>Select a file</p>
+              </SelectBox>
+              <SpanYearsRetantion>Years of retention</SpanYearsRetantion>
+            </FlexContainer>
+          </RetentionWrapperForm>
+        </FlexboxStyled>
+        <FlexboxStyled>
+          <FlexContainer>
+            <Paragraph>Select a file</Paragraph>
             <div className="file-input-wrapper">
               <label htmlFor="upload-input" className="file-input-label">
                 <span className="upload-filename">{this.state.fileName}</span>
@@ -207,15 +266,15 @@ class UploadSlide extends Component<UploadSlideProps, UploadSlideState> {
               type="file"
               required
             />
-          </div>
-          <div className="upload-column">
-            <p>Cost</p>
-            <h3 className="storage-fees">
+          </FlexContainer>
+          <FlexContainer>
+            <Paragraph>Cost</Paragraph>
+            <StorageFees>
               {this.state.humanFileSize} for {retentionYears} years:
-              <span> {this.state.storageCost} PRL</span>
-            </h3>
-          </div>
-        </div>
+              <SpanStorageFees> {this.state.storageCost} PRL</SpanStorageFees>
+            </StorageFees>
+          </FlexContainer>
+        </FlexboxStyled>
         <div className="upload_button">
           <Button
             id="start-upload-btn"
@@ -249,14 +308,14 @@ class UploadSlide extends Component<UploadSlideProps, UploadSlideState> {
             className="download-spinner"
           />
         </div>
-        <aside className="disclaimer">
+        <Disclaimer>
           DISCLAIMER: No PRL is required to use the beta Mainnet.
           <br />
           This is a beta phase and should not be used for important data.
           <br />
           Uploads cost 1 PRL per 64GB per year (paid for by Oyster). <br />
           Current filesize limit is 125MB per file.
-        </aside>
+        </Disclaimer>
       </Slide>
     );
   }
